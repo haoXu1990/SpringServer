@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xh.HiXiaoshuoserver.mapper.BookMapper">
+
+    <resultMap id="bookResultMap" type="com.xh.HiXiaoshuoserver.domain.Book">
+
+        <result column="book_id" property="bookID"/>
+        <result column="book_name" property="bookName"/>
+        <result column="book_author" property="bookAuthor"/>
+        <result column="book_status" property="bookStatus"/>
+        <result column="book_classify" property="bookClassify"/>
+        <result column="book_catetime" property="bookCreatTime"/>
+        <result column="book_abstract" property="bookAbstract"/>
+        <result column="book_imageurl" property="bookImageUrl"/>
+    </resultMap>
+
+    <sql id="Base_Column_bookList">
+      book_name,book_author,book_status,book_classify,book_catetime,book_abstract,book_imageurl
+    </sql>
+
+
+    <select id="findByPage" resultMap="bookResultMap" useCache="false">
+        select books.book_id,
+        <include refid="Base_Column_bookList"/>
+        from books, book_source where books.book_id = book_source.book_id
+    </select>
+
+</mapper>
