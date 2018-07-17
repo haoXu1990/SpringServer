@@ -3,10 +3,12 @@ package com.xh.HiXiaoshuoserver.mapper;
 
 import com.xh.HiXiaoshuoserver.domain.Book;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -31,9 +33,10 @@ public interface BookMapper {
 
     /**
      * 分页查询数据
-     * @return
+     * @param classify  小说分类,null查询全部分类
+     * @return 查询结果
      */
-    List<Book> findByPage();
+    List<Book> findByPage(String classify);
 
     /**
      * 按照BookID查询URL

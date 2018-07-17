@@ -20,9 +20,14 @@
 
 
     <select id="findByPage" resultMap="bookResultMap" useCache="false">
-        select books.book_id,
-        <include refid="Base_Column_bookList"/>
-        from books, book_source where books.book_id = book_source.book_id
+        select p.*
+        from (select books.book_id,
+        <include refid="Base_Column_bookList"/>, (select book_clickcount from book_click_rank where book_id = books.book_id)
+        as clickcount from books  <if test="classify != null">
+        where books.book_classify=#{classify}
+        </if>
+        )
+        as p order by p.clickcount desc
     </select>
 
 </mapper>

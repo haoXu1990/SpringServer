@@ -20,7 +20,12 @@ public class BookServicelmlp implements BookService {
 
     @Override
     public Book getBook(String bookID) {
-        return mBookMapper.getBook(bookID);
+
+        Book book = mBookMapper.getBook(bookID);
+        String[] urls = mBookMapper.getBookUrls(book.getBookID());
+        book.setBookUrls(urls);
+
+        return book;
     }
 
     @Override
@@ -30,7 +35,7 @@ public class BookServicelmlp implements BookService {
         PageHelper.startPage(pageNum, pageSize);
 
         // 第一步，查询出book列表
-        List<Book> books = mBookMapper.findByPage();
+        List<Book> books = mBookMapper.findByPage(null);
 
         // 第二步，查询出每个book的url列表
         for (int i = 0; i < books.size(); i++) {
