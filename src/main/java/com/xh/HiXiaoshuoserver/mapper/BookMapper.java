@@ -3,10 +3,7 @@ package com.xh.HiXiaoshuoserver.mapper;
 
 import com.xh.HiXiaoshuoserver.domain.Book;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.Date;
 import java.util.List;
@@ -34,9 +31,11 @@ public interface BookMapper {
     /**
      * 分页查询数据
      * @param classify  小说分类,null查询全部分类
+     * @param male 男频
+     * @param female 女频
      * @return 查询结果
      */
-    List<Book> findByPage(String classify);
+    List<Book> findByPage(@Param("classify") String classify, @Param("male") String male, @Param("female") String female);
 
     /**
      * 按照BookID查询URL
@@ -44,5 +43,43 @@ public interface BookMapper {
      */
     @Select("SELECT book_url FROM book_source WHERE book_id = #{bookID}")
     String[] getBookUrls(String bookID);
+
+    /**
+     * 获取经典小说 随机获取
+     * @return 查询结果
+     */
+    List<Book> findByJinDian();
+
+    /**
+     * 获取经典小说 分页获取
+     * @return 查询结果
+     */
+    List<Book> findByJinDianPage();
+
+
+    /**
+     * 获取男生小说 随机获取
+     * @return 查询结果
+     */
+    List<Book> findByNvShen();
+
+    /**
+     * 获取男生小说 分页获取
+     * @return 查询结果
+     */
+    List<Book> findByNvShenPage();
+
+
+    /**
+     * 获取女生小说 随机获取
+     * @return 查询结果
+     */
+    List<Book> findByNanShen();
+
+    /**
+     * 获取女生小说 分页获取
+     * @return 查询结果
+     */
+    List<Book> findByNanShenPage();
 
 }
