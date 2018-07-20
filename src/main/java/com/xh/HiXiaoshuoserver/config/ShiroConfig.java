@@ -18,6 +18,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ShiroConfig {
 
+
+
     // 注入自定义的real, 告诉shiro如何获取用户信息来做登录或权限控制
     @Bean
     public Realm realm(){

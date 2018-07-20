@@ -47,18 +47,23 @@ public class UserController {
             User user = (User) currentUser.getPrincipal();
             if (user == null) throw new AuthenticationException();
 
+
+            User user1 = userService.findeUserByName(uname);
+            user1.setRoles(user.getRoles());
+            user1.setPerms(user.getPerms());
+
             // 返回登录信息
-            return JsonData.buildSuccess(userService.findeUserByName(uname));
+            return JsonData.buildSuccess(user1);
 
         }catch ( UnknownAccountException uae ) {
             return JsonData.buildError("用户帐号或密码不正确");
-
 
         } catch (IncorrectCredentialsException ice ) {
 
             return JsonData.buildError("用户帐号或密码不正确");
 
         } catch ( LockedAccountException lae ) {
+
             return JsonData.buildError("用户帐号被锁定不可用");
 
         } catch ( AuthenticationException ae ) {

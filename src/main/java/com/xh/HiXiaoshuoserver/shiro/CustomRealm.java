@@ -75,6 +75,7 @@ public class CustomRealm extends AuthorizingRealm {
             throw new AccountException("\"Null usernames are not allowed by this realm");
         }
 
+        // 在数据库中查找用户是否存在
         User userdb = userService.findeUserByName(username);
 
         if (userdb == null){
