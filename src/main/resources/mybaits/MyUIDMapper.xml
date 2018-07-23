@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xh.HiXiaoshuoserver.mapper.uidMapper">
+
+
+    <select id="getUidForRegister" parameterType="java.lang.String" resultType="java.lang.Long" statementType="CALLABLE">
+      {call GET_UID_FOR_REGISTER(#{usedFor, mode=IN, jdbcType=VARCHAR})}
+    </select>
+
+</mapper>
