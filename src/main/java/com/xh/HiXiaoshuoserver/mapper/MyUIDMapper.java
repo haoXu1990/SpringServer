@@ -1,6 +1,6 @@
 package com.xh.HiXiaoshuoserver.mapper;
 
-public interface UIDMapper {
+public interface MyUIDMapper {
 
     Long getUidForRegister(String usedFor);
 }

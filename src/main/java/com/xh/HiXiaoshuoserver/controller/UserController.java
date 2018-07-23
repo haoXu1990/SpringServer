@@ -3,14 +3,15 @@ package com.xh.HiXiaoshuoserver.controller;
 import com.xh.HiXiaoshuoserver.domain.JsonData;
 import com.xh.HiXiaoshuoserver.domain.User;
 import com.xh.HiXiaoshuoserver.service.UserService;
+import com.xh.HiXiaoshuoserver.service.MyUIDService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
 
 /**
  * @program: HiXiaoshuo-server
@@ -24,6 +25,43 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private MyUIDService MyUIDService;
+
+
+
+    @PostMapping("/add")
+    public Object add(@RequestBody User user){
+
+        Long uid = Long.valueOf(888888);//MyUIDService.getUidForRegister("common").toString(); //随机生成一个用户ID
+        String uname = user.getUname(); //登录用户名
+        String nick = user.getNick(); //用户昵称
+        String pwd = user.getPwd(); // 加密过后的密码
+        String salt = user.getSalt(); // 盐值
+        Date created = new Date();
+        Date updated = new Date();
+
+
+        String ret = userService.addUser(uid,uname,nick,pwd,salt,created,updated);
+
+
+        // 检查是否存在该用户
+        User user1 = userService.findeUserByName(uname);
+        if (user1!=null){
+            return JsonData.buildError("该用户已经存在");
+        };
+
+
+        if (ret != null){
+            return JsonData.buildSuccess(null,"注册成功");
+        }
+
+        return JsonData.buildError("注册失败");
+
+
+    }
+
 
     @GetMapping("/login")
     public Object login(String uname, String pwd){

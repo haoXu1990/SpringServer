@@ -2,6 +2,8 @@ package com.xh.HiXiaoshuoserver.service;
 
 import com.xh.HiXiaoshuoserver.domain.User;
 
+import java.util.Date;
+
 /**
  * @program: HiXiaoshuo-server
  * @description: 用户接口类
@@ -11,6 +13,14 @@ import com.xh.HiXiaoshuoserver.domain.User;
 public interface UserService {
 
 
-    public User findeUserByName(String uname);
+    String addUser(Long uid,
+                        String uname,
+                        String nick,
+                        String pwd,
+                        String salt,
+                        Date created,
+                        Date pudated);
+
+    User findeUserByName(String uname);
 
 }

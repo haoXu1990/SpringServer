@@ -1,12 +1,12 @@
 package com.xh.HiXiaoshuoserver.service.imlp;
 
 import com.xh.HiXiaoshuoserver.mapper.MyUIDMapper;
-import com.xh.HiXiaoshuoserver.service.uidService;
+import com.xh.HiXiaoshuoserver.service.MyUIDService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UidServicelmlp implements uidService {
+public class MyUIDServicelmlp implements MyUIDService {
 
     // Dao 层 也就是数据库访问
     @Autowired

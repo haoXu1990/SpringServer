@@ -7,7 +7,7 @@ package com.xh.HiXiaoshuoserver.service;
  * @author: XuHao
  * @create: 2018-07-23 15:15
  **/
-public interface uidService {
+public interface MyUIDService {
     /**
      * 通过uid区间标识（usedfor）得到一个编号。
      * @param usedFor
