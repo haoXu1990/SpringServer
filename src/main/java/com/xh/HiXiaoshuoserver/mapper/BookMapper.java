@@ -3,6 +3,7 @@ package com.xh.HiXiaoshuoserver.mapper;
 
 import com.xh.HiXiaoshuoserver.domain.Book;
 
+import com.xh.HiXiaoshuoserver.domain.BookSource;
 import org.apache.ibatis.annotations.*;
 
 import java.util.Date;
@@ -41,8 +42,14 @@ public interface BookMapper {
      * 按照BookID查询URL
      * @return url数组
      */
-    @Select("SELECT book_url FROM book_source WHERE book_id = #{bookID}")
-    String[] getBookUrls(String bookID);
+    @Select("SELECT book_id,book_url, book_domain,book_enable  FROM book_source WHERE book_id = #{bookID}")
+    @Results({
+            @Result(column = "book_id", property = "bookID"),
+            @Result(column = "book_url", property = "bookUrl"),
+            @Result(column = "book_domain", property = "bookDomain"),
+            @Result(column = "book_enable", property = "bookEnable")
+    })
+    List<BookSource> getBookUrls(String bookID);
 
     /**
      * 获取经典小说 随机获取

@@ -27,7 +27,7 @@ public class Book {
 
     private String bookImageUrl;
 
-    private String[] bookUrls;
+    private List<BookSource> bookUrls;
 
 
 
@@ -96,11 +96,11 @@ public class Book {
     }
 
 
-    public String[] getBookUrls() {
+    public List<BookSource> getBookUrls() {
         return bookUrls;
     }
 
-    public void setBookUrls(String[] bookUrls) {
+    public void setBookUrls(List<BookSource> bookUrls) {
         this.bookUrls = bookUrls;
     }
 

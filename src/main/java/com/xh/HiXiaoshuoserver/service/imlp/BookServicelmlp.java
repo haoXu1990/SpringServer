@@ -3,6 +3,7 @@ package com.xh.HiXiaoshuoserver.service.imlp;
 
 import com.github.pagehelper.PageHelper;
 import com.xh.HiXiaoshuoserver.domain.Book;
+import com.xh.HiXiaoshuoserver.domain.BookSource;
 import com.xh.HiXiaoshuoserver.mapper.BookMapper;
 import com.xh.HiXiaoshuoserver.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,7 @@ public class BookServicelmlp implements BookService {
 
             Book book = books.get(i);
 
-            String[] urls = mBookMapper.getBookUrls(book.getBookID());
+            List<BookSource> urls = mBookMapper.getBookUrls(book.getBookID());
 
             book.setBookUrls(urls);
         }
@@ -85,7 +86,7 @@ public class BookServicelmlp implements BookService {
 
             Book book = books.get(i);
 
-            String[] urls = mBookMapper.getBookUrls(book.getBookID());
+            List<BookSource> urls = mBookMapper.getBookUrls(book.getBookID());
 
             book.setBookUrls(urls);
         }
@@ -142,7 +143,7 @@ public class BookServicelmlp implements BookService {
     public Book getBook(String bookID) {
 
         Book book = mBookMapper.getBook(bookID);
-        String[] urls = mBookMapper.getBookUrls(book.getBookID());
+        List<BookSource> urls = mBookMapper.getBookUrls(book.getBookID());
         book.setBookUrls(urls);
 
         return book;
@@ -162,7 +163,7 @@ public class BookServicelmlp implements BookService {
 
             Book book = books.get(i);
 
-            String[] urls = mBookMapper.getBookUrls(book.getBookID());
+            List<BookSource> urls = mBookMapper.getBookUrls(book.getBookID());
 
             book.setBookUrls(urls);
         }
@@ -183,7 +184,7 @@ public class BookServicelmlp implements BookService {
 
             Book book = books.get(i);
 
-            String[] urls = mBookMapper.getBookUrls(book.getBookID());
+            List<BookSource> urls = mBookMapper.getBookUrls(book.getBookID());
 
             book.setBookUrls(urls);
         }
@@ -206,7 +207,7 @@ public class BookServicelmlp implements BookService {
 
             Book book = books.get(i);
 
-            String[] urls = mBookMapper.getBookUrls(book.getBookID());
+            List<BookSource> urls = mBookMapper.getBookUrls(book.getBookID());
 
             book.setBookUrls(urls);
         }
@@ -225,7 +226,7 @@ public class BookServicelmlp implements BookService {
 
             Book book = books.get(i);
 
-            String[] urls = mBookMapper.getBookUrls(book.getBookID());
+            List<BookSource> urls = mBookMapper.getBookUrls(book.getBookID());
 
             book.setBookUrls(urls);
         }
@@ -246,7 +247,7 @@ public class BookServicelmlp implements BookService {
 
             Book book = books.get(i);
 
-            String[] urls = mBookMapper.getBookUrls(book.getBookID());
+            List<BookSource> urls = mBookMapper.getBookUrls(book.getBookID());
 
             book.setBookUrls(urls);
         }
@@ -265,7 +266,7 @@ public class BookServicelmlp implements BookService {
 
             Book book = books.get(i);
 
-            String[] urls = mBookMapper.getBookUrls(book.getBookID());
+            List<BookSource> urls = mBookMapper.getBookUrls(book.getBookID());
 
             book.setBookUrls(urls);
         }
@@ -286,7 +287,7 @@ public class BookServicelmlp implements BookService {
 
             Book book = books.get(i);
 
-            String[] urls = mBookMapper.getBookUrls(book.getBookID());
+            List<BookSource> urls = mBookMapper.getBookUrls(book.getBookID());
 
             book.setBookUrls(urls);
         }
