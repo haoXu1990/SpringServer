@@ -37,7 +37,7 @@ public class JsonData implements Serializable {
 	}
 
 	// 成功，传入数据
-	public static JsonData buildSuccess(Object data) { return new JsonData(0, data, null); }
+	public static JsonData buildSuccess(Object data) { return new JsonData(200, data, "请求成功"); }
 
 	// 失败，传入描述信息
 	public static JsonData buildError(String msg) {
