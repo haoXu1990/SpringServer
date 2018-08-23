@@ -21,163 +21,133 @@ public class BookServicelmlp implements BookService {
 
 
     @Override
-    public List<Map> findByFemale() {
+    public List<Map> getHome(int homeType) {
 
-        // 查询出 火热推荐内容
-        List<Book> huore = findByNvShen();
+        if (homeType == 1){
 
-
-        // 使用分页插件，在下一条查询语句会分页 这里随机分页
-        Random random = new Random();
-
-        PageHelper.startPage(random.nextInt() + 1, 8);
-
-        // 第一步，查询出book列表
-        List<Book> books = mBookMapper.findByPage(null,null,"1");
-
-        // 第二步，查询出每个book的url列表
-        for (int i = 0; i < books.size(); i++) {
-
-            Book book = books.get(i);
-
-            List<BookSource> urls = mBookMapper.getBookUrls(book.getBookID());
-
-            book.setBookUrls(urls);
+            return bookMallGoods();
         }
 
+        return null;
+    }
 
-        Map<String, Object> huoreMap = new HashMap<>();
-        huoreMap.put("title", "火热推荐");
-        huoreMap.put("data", huore);
 
-        Map<String, Object> lianzaiMap = new HashMap<>();
-        lianzaiMap.put("title", "连载推荐");
-        lianzaiMap.put("data", books);
+    public List<Map> bookMallGoods(){
+//           精选页面
+//           精品汇聚：   从经典小说里面随机获取8条 随机
+//           精品专场：   从封面推荐里面随机获取8条
+//           大家都在看：  从点击排行降序获取5条
+//
+        List<Book> booksOne = findBookWithRandom("8",null,"精品小说");
+
+        List<Book> booksTwo = findBookWithRandom("8",null,"封面推荐");
+
+        List<Book> booksTree = findBookByPage(1,
+                10,
+                null,
+                null,
+                "1",
+                null,
+                getTimerStrWithType(0));
+
+        Map bookMap = new HashMap();
+        bookMap.put("title", "精品汇聚");
+        bookMap.put("data", booksOne);
+
+        Map bookMapOne = new HashMap();
+        bookMapOne.put("title", "精品专场");
+        bookMapOne.put("data", booksTwo);
+
+        Map bookMapTwo = new HashMap();
+        bookMapTwo.put("title", "大家都在看");
+        bookMapTwo.put("data", booksTree);
 
 
         List<Map> list = new ArrayList<>();
-        list.add(huoreMap);
-        list.add(lianzaiMap);
+        list.add(bookMap);
+        list.add(bookMapOne);
+        list.add(bookMapTwo);
 
         return list;
     }
+
+
+
+    @Override
+    public List<Book> findBookByPage(int pageNum,
+                                     int pageSize,
+                                     String book_classify,
+                                     String book_status,
+                                     String click_total,
+                                     String collect_total,
+                                     String time_condition) {
+
+        // 使用分页插件，在下一条查询语句会分页
+        PageHelper.startPage(pageNum, pageSize);
+
+        // 第一步，查询出book列表
+        List<Book> books = mBookMapper.findBooks(book_classify,
+                null,
+                0,
+                book_status,
+                click_total,
+                collect_total,
+                time_condition);
+
+        return wrapUrlWithBooks(books);
+    }
+
+
+    /**
+     * 随机获取N条指定的分类、推荐分类下面的小说
+     * @param random_number 获取条数
+     * @param book_classify 分类  男生，女生， 或则单独分类
+     * @param book_recommend 推荐主题 精品， 封面推荐
+     * */
+    public List<Book> findBookWithRandom(String random_number,String book_classify, String book_recommend){
+
+        // 查询数据库
+        List<Book> books =
+
+        mBookMapper.findBooks(book_classify,
+                book_recommend,
+                Integer.valueOf(random_number),
+                null,null,null,null);
+
+        // 包装URL 后返回
+        return wrapUrlWithBooks(books);
+    }
+
+
+
+
+    /**
+     * 获取排行 时间
+     * */
+    public String getTimerStrWithType(int type) {
+
+        if (type == 0) {
+            // 总点击
+            return "2018-06-01 00:00:00";
+        }
+        else if (type == 1){
+            // 月点击
+            return "2018-08-01 00:00:00";
+        }
+        else if (type == 2){
+            // 周点击
+            return "2018-08-19 00:00:00";
+        }
+
+        return  "2018-06-01 00:00:00";
+    }
+
 
     /**
      *
-     * 组装 火热推荐(重男生最爱里面随机获取8本), 连载推荐(随机推荐8本男生书籍)
+     * 为小说模型包装小说url模型
      * */
-    @Override
-    public List<Map> findByMale() {
-
-        // 查询出 火热推荐内容
-        List<Book> huore = findByNanShen();
-
-
-        // 使用分页插件，在下一条查询语句会分页 这里随机分页
-        Random random = new Random();
-
-        PageHelper.startPage(random.nextInt() + 1, 8);
-
-        // 第一步，查询出book列表
-        List<Book> books = mBookMapper.findByPage(null,"1",null);
-
-        // 第二步，查询出每个book的url列表
-        for (int i = 0; i < books.size(); i++) {
-
-            Book book = books.get(i);
-
-            List<BookSource> urls = mBookMapper.getBookUrls(book.getBookID());
-
-            book.setBookUrls(urls);
-        }
-
-
-        Map<String, Object> huoreMap = new HashMap<>();
-        huoreMap.put("title", "火热推荐");
-        huoreMap.put("data", huore);
-
-        Map<String, Object> lianzaiMap = new HashMap<>();
-        lianzaiMap.put("title", "连载推荐");
-        lianzaiMap.put("data", books);
-
-
-        List<Map> list = new ArrayList<>();
-        list.add(huoreMap);
-        list.add(lianzaiMap);
-
-        return list;
-    }
-
-    /**
-     *
-     * 组装 经典小说获取8条，男生最爱获取8条，女生最爱获取8条
-     * */
-    @Override
-    public List<Map> getHome() {
-
-        List<Book> jindian = findByJinDian();
-        List<Book> nanshen = findByNanShen();
-        List<Book> nvshen = findByNvShen();
-
-        Map<String, Object> jindianMap = new HashMap<>();
-        jindianMap.put("title", "经典推荐");
-        jindianMap.put("data", jindian);
-
-        Map<String, Object> nanshenMap = new HashMap<>();
-        nanshenMap.put("title", "男生最爱");
-        nanshenMap.put("data", nanshen);
-
-        Map<String, Object> nvshenMap = new HashMap<>();
-        nvshenMap.put("title", "女生最爱");
-        nvshenMap.put("data", nvshen);
-
-        List<Map> list = new ArrayList<>();
-        list.add(jindianMap);
-        list.add(nanshenMap);
-        list.add(nvshenMap);
-
-        return list;
-    }
-
-    @Override
-    public Book getBook(String bookID) {
-
-        Book book = mBookMapper.getBook(bookID);
-        List<BookSource> urls = mBookMapper.getBookUrls(book.getBookID());
-        book.setBookUrls(urls);
-
-        return book;
-    }
-
-    @Override
-    public List<Book> findeByPage(int pageNum, int pageSize) {
-
-        // 使用分页插件，在下一条查询语句会分页
-        PageHelper.startPage(pageNum, pageSize);
-
-        // 第一步，查询出book列表
-        List<Book> books = mBookMapper.findByPage(null,null,null);
-
-        // 第二步，查询出每个book的url列表
-        for (int i = 0; i < books.size(); i++) {
-
-            Book book = books.get(i);
-
-            List<BookSource> urls = mBookMapper.getBookUrls(book.getBookID());
-
-            book.setBookUrls(urls);
-        }
-
-        return books;
-
-    }
-
-
-    @Override
-    public List<Book> findByJinDian() {
-
-        // 第一步，查询出book列表
-        List<Book> books = mBookMapper.findByJinDian();
+    public List<Book> wrapUrlWithBooks(List<Book> books){
 
         // 第二步，查询出每个book的url列表
         for (int i = 0; i < books.size(); i++) {
@@ -192,106 +162,26 @@ public class BookServicelmlp implements BookService {
         return books;
     }
 
-
-    @Override
-    public List<Book> findByJinDianPage(int pageNum, int pageSize) {
-
-        // 使用分页插件，在下一条查询语句会分页
-        PageHelper.startPage(pageNum, pageSize);
-
-        // 第一步，查询出book列表
-        List<Book> books = mBookMapper.findByJinDianPage();
-
-        // 第二步，查询出每个book的url列表
-        for (int i = 0; i < books.size(); i++) {
-
-            Book book = books.get(i);
-
-            List<BookSource> urls = mBookMapper.getBookUrls(book.getBookID());
-
-            book.setBookUrls(urls);
-        }
-
-        return books;
-    }
+//    public List<Book> findBook(String book_classify,
+//                               String book_recommend_tag,
+//                               String random_number,
+//                               String click_total,
+//                               String collect_total,
+//                               String time_condition){
+//
+//        List<Book> books = mBookMapper.findBooks(book_classify,
+//                book_recommend_tag,
+//                Integer.valueOf(random_number),
+//                null,
+//                click_total,
+//                collect_total,
+//                time_condition);
+//        return books;
+//    }
 
 
-    @Override
-    public List<Book> findByNanShen() {
-        // 第一步，查询出book列表
-        List<Book> books = mBookMapper.findByNanShen();
-
-        // 第二步，查询出每个book的url列表
-        for (int i = 0; i < books.size(); i++) {
-
-            Book book = books.get(i);
-
-            List<BookSource> urls = mBookMapper.getBookUrls(book.getBookID());
-
-            book.setBookUrls(urls);
-        }
-
-        return books;
-    }
-
-    @Override
-    public List<Book> findByNanShenPage(int pageNum, int pageSize) {
-        // 使用分页插件，在下一条查询语句会分页
-        PageHelper.startPage(pageNum, pageSize);
-
-        // 第一步，查询出book列表
-        List<Book> books = mBookMapper.findByNanShenPage();
-
-        // 第二步，查询出每个book的url列表
-        for (int i = 0; i < books.size(); i++) {
-
-            Book book = books.get(i);
-
-            List<BookSource> urls = mBookMapper.getBookUrls(book.getBookID());
-
-            book.setBookUrls(urls);
-        }
-
-        return books;
-    }
 
 
-    @Override
-    public List<Book> findByNvShen() {
-        // 第一步，查询出book列表
-        List<Book> books = mBookMapper.findByNvShen();
 
-        // 第二步，查询出每个book的url列表
-        for (int i = 0; i < books.size(); i++) {
 
-            Book book = books.get(i);
-
-            List<BookSource> urls = mBookMapper.getBookUrls(book.getBookID());
-
-            book.setBookUrls(urls);
-        }
-
-        return books;
-    }
-
-    @Override
-    public List<Book> findByNvShenPage(int pageNum, int pageSize) {
-        // 使用分页插件，在下一条查询语句会分页
-        PageHelper.startPage(pageNum, pageSize);
-
-        // 第一步，查询出book列表
-        List<Book> books = mBookMapper.findByNvShenPage();
-
-        // 第二步，查询出每个book的url列表
-        for (int i = 0; i < books.size(); i++) {
-
-            Book book = books.get(i);
-
-            List<BookSource> urls = mBookMapper.getBookUrls(book.getBookID());
-
-            book.setBookUrls(urls);
-        }
-
-        return books;
-    }
 }

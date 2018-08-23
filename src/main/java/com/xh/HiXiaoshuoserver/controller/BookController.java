@@ -17,126 +17,49 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
-    @Autowired
-    private BookMapper bookMapper;
 
 
-    @GetMapping("/")
-    public Object hello(){
-        return "hello";
-    }
-    /**
-     * 女频接口
-     *
-     * 组装  火热推荐(重女生最爱里面随机获取8本), 连载推荐(随机推荐8本女生书籍)
-     *
-     * */
-    @GetMapping("findByFemale")
-    public Object findByFemale(){
-
-        return JsonData.buildSuccess(bookService.findByFemale());
-    }
-
-    /**
-     * 男频接口
-     *
-     * 组装  火热推荐(重男生最爱里面随机获取8本), 连载推荐(随机推荐8本男生书籍)
-     *
-     * */
-    @GetMapping("findByMale")
-    public Object findByMale(){
-
-        return JsonData.buildSuccess(bookService.findByMale());
-    }
 
 
     /**
      * 主页接口
      *
-     * 组装 经典小说获取8条，男生最爱获取8条，女生最爱获取8条
-     *
+     * @param homeType  请求类型: 1=书城精选，2=书城女生，3=书城男生
      * */
     @GetMapping("home")
-    public Object home(){
+    public Object home(int homeType){
 
-        return JsonData.buildSuccess(bookService.getHome());
-    }
+        /***
+         *  主页接口部分包括
+         *  精选页面
+         *      精品汇聚：   从经典小说里面随机获取8条 随机
+         *      精品专场：   从封面推荐里面随机获取8条
+         *      大家都在看：  从点击排行降序获取5条
+         *  女生页面
+         *      女生精品： 从经典小说里面随机获取女生分类8条小说
+         *      人气最热： 从收藏排行里面获取8条 女生分类小说
+         *      热门分类:  女生小说主类下面的 所有子类
+         *      完结热推:  从完结小说中获取8条 女生分类小说
+         *
+         *  男生页面
+         *      男生精品： 从经典小说里面随机获取男生分类8条小说
+         *      人气最热： 从收藏排行里面获取8条 男生分类小说
+         *      热门分类:  男生小说主类下面的 所有子类
+         *      完结热推:  从完结小说中获取8条 男生分类小说
+         *
+         *
+         *
+         * */
 
-    /**
-     * @Description:  获取小说列表，分页显示
-     * @Param:  pageNum, pageSize
-     * @return: 小说集合
-     * @Author: Xuhao
-     * @Date: 2018/7/16
-     */
-    @GetMapping("find_by_page")
-    public Object findByPage(int pageNum, int pageSize) {
 
-        return JsonData.buildSuccess(bookService.findeByPage(pageNum, pageSize));
-    }
 
-    /**
-     * 获取精品小说 随机获取
-     * */
-    @GetMapping("find_by_jindian")
-    public Object findByJinDian() {
-        return JsonData.buildSuccess(bookService.findByJinDian());
-    }
-
-    /**
-     * 获取精品小说 分页获取
-     * */
-    @GetMapping("find_by_jindian_page")
-    public Object findByJinDianPage(int pageNum, int pageSize) {
-        return JsonData.buildSuccess(bookService.findByJinDianPage(pageNum,pageSize));
-    }
-
-    /**
-     * 获取男频小说 随机获取
-     * */
-    @GetMapping("find_by_nanshen")
-    public Object findByNanShen() {
-        return JsonData.buildSuccess(bookService.findByNanShen());
-    }
-
-    /**
-     * 获取男频小说 分页获取
-     * */
-    @GetMapping("find_by_nanshen_page")
-    public Object findByNanShenPage(int pageNum, int pageSize) {
-        return JsonData.buildSuccess(bookService.findByNanShenPage(pageNum,pageSize));
+        return JsonData.buildSuccess(bookService.getHome(homeType));
     }
 
 
-    /**
-     * 获取女频 随机获取
-     * */
-    @GetMapping("find_by_nvshen")
-    public Object findByNvShen() {
-        return JsonData.buildSuccess(bookService.findByNvShen());
-    }
-
-    /**
-     * 获取女频 分页获取
-     * */
-    @GetMapping("find_by_nvshen_page")
-    public Object findByNvShenPage(int pageNum, int pageSize) {
-        return JsonData.buildSuccess(bookService.findByNvShenPage(pageNum,pageSize));
-    }
 
 
-    /**
-     * @Description:  根据小说ID获取小说信息
-     * @Param:  bookID
-     * @return: 小说详情
-     * @Author: Xuhao
-     * @Date: 2018/7/16
-     */
-    @GetMapping("find_by_id")
-    public Object findById(String bookID) {
 
-        return JsonData.buildSuccess(bookService.getBook(bookID));
-    }
 
 
 

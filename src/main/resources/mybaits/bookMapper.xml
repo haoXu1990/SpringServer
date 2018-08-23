@@ -94,4 +94,64 @@
 
     </select>
 
+    
+    
+    <!--新接口-->
+    <select id="findBooks" resultMap="bookResultMap" useCache="false">
+
+        select book_id, <include refid="Base_Column_bookList"/>
+
+        from books
+        <where>
+
+            <choose>
+                <when test="book_classify == '男生' ">
+                    books.book_classify in ('玄幻奇幻', '武侠仙侠', '历史军事', '科幻灵异', '游戏竞技') AND INSTR(books.book_imageurl,"img.miaobige.com")>0
+
+                </when>
+
+                <when test="book_classify == '女生' ">
+                    books.book_classify in ('言情女生', '科幻灵异', '都市青春') AND INSTR(books.book_imageurl,"img.miaobige.com")>0
+                </when>
+
+                <when test="book_classify != null">
+                    books.book_classify in (#{book_classify}) AND INSTR(books.book_imageurl,"img.miaobige.com")>0
+                </when>
+
+                <otherwise>
+                    AND INSTR(books.book_imageurl,"img.miaobige.com")>0
+                </otherwise>
+            </choose>
+
+
+            <if test="book_recommend_tag != null">
+                AND INSTR(books.book_subject, #{book_recommend_tag})>0
+            </if>
+
+            <if test="book_status != null" >
+                AND books.status = #{book_status}
+            </if>
+
+            <if test="random_number != 0">
+                ORDER BY RAND() LIMIT #{random_number}
+            </if>
+
+
+            <if test="click_total != null and time_condition != null">
+                AND books.book_id in (
+                SELECT book_id from (
+                select  sum(book_click_cnt), book_id from
+                book_click_total where book_click_time between #{time_condition} and NOW() GROUP BY book_id order by  SUM(book_click_cnt) DESC
+                ) as t
+                )
+            </if>
+
+
+
+
+        </where>
+
+
+    </select>
+    
 </mapper>

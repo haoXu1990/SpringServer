@@ -12,31 +12,27 @@ import java.util.List;
 
 public interface BookMapper {
 
-    /**
-     *  按照BOOKID 查询book
-     */
-    @Select("SELECT * FROM books WHERE book_id = #{bookID}")
-    @Results({
-            @Result(column = "book_name", property = "bookName"),
-            @Result(column = "book_author", property = "bookAuthor"),
-            @Result(column = "book_status", property = "bookStatus"),
-            @Result(column = "book_classify", property = "bookClassify"),
-            @Result(column = "book_id", property = "bookID"),
-            @Result(column = "book_catetime", property = "bookCreatTime"),
-            @Result(column = "book_abstract", property = "bookAbstract"),
-            @Result(column = "book_imageurl", property = "bookImageUrl")
-    })
-    Book getBook(String bookID);
-
 
     /**
      * 分页查询数据
-     * @param classify  小说分类,null查询全部分类
-     * @param male 男频
-     * @param female 女频
+     * @param book_classify  小说分类 男生， 女生， 或则单个分类
+     * @param book_recommend_tag 推荐频道 经典小说,封面推荐
+     * @param click_total 点击排行
+     * @param collect_total 收藏排行
+     * @param time_condition 查询排行时间条件
      * @return 查询结果
      */
-    List<Book> findByPage(@Param("classify") String classify, @Param("male") String male, @Param("female") String female);
+    List<Book> findBooks(@Param("book_classify") String book_classify,
+                         @Param("book_recommend_tag") String book_recommend_tag,
+                         @Param("random_number") int random_number,
+                         @Param("book_status") String book_status,
+                         @Param("click_total") String click_total,
+                         @Param("collect_total") String collect_total,
+                         @Param("time_condition") String time_condition);
+
+
+
+
 
     /**
      * 按照BookID查询URL
@@ -51,42 +47,5 @@ public interface BookMapper {
     })
     List<BookSource> getBookUrls(String bookID);
 
-    /**
-     * 获取经典小说 随机获取
-     * @return 查询结果
-     */
-    List<Book> findByJinDian();
-
-    /**
-     * 获取经典小说 分页获取
-     * @return 查询结果
-     */
-    List<Book> findByJinDianPage();
-
-
-    /**
-     * 获取男生小说 随机获取
-     * @return 查询结果
-     */
-    List<Book> findByNvShen();
-
-    /**
-     * 获取男生小说 分页获取
-     * @return 查询结果
-     */
-    List<Book> findByNvShenPage();
-
-
-    /**
-     * 获取女生小说 随机获取
-     * @return 查询结果
-     */
-    List<Book> findByNanShen();
-
-    /**
-     * 获取女生小说 分页获取
-     * @return 查询结果
-     */
-    List<Book> findByNanShenPage();
 
 }

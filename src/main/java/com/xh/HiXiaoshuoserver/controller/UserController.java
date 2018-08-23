@@ -50,7 +50,7 @@ public class UserController {
         User user1 = userService.findeUserByName(uname);
         if (user1!=null){
             return JsonData.buildError("该用户已经存在");
-        };
+        }
 
 
         if (ret != null){
