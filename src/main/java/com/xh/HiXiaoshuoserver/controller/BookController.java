@@ -18,7 +18,98 @@ public class BookController {
     private BookService bookService;
 
 
+    /**
+     * 根据小说分类和小说推荐主题随机获取 number 个小说
+     *
+     * @param pageNum
+     * */
+    @GetMapping("/findbookByPage")
+    public Object findbookByPage(int pageNum, int pageSize, String classifyType){
+        String fl;
 
+        return null;
+    }
+
+    /**
+     * 根据小说分类，数量, 随机获取点击排行榜前1000页数据
+     *
+     * @param pageSize 获取数量
+     * @param classifyTyp 分类： 0 ： 不分类， 1 = 男生 2 = 女生
+     * */
+    @GetMapping("/randomClickTotalBook")
+    public Object randomClickTotalBook(int number, String classifyType){
+
+        String fl;
+        switch (classifyType) {
+            case "1":
+                fl = "男生";
+                break;
+            case "2":
+                fl = "女生";
+                break;
+            default:
+                fl = null;
+        }
+
+        int pageNum = 1 + (int)(Math.random()*1000);
+
+        return JsonData.buildSuccess(bookService.findBookByPage(pageNum,
+                number,
+                fl,
+                null,
+                "1",
+                null,
+                "2018-06-01 00:00:00"));
+    }
+
+    /**
+     * 根据小说分类和小说推荐主题随机获取 number 个小说
+     *
+     * @param number 获取数量
+     * @param classifyType 分类： 0 ： 不分类， 1 = 男生 2 = 女生
+     * @param recommendType 推荐主题 0: 获取点击排行总榜， 1：精品小说 2:封面小说
+     * */
+    @GetMapping("/random")
+    public Object randomBook(int number, String classifyType, String recommendType){
+
+        String fl;
+        String tj;
+
+        switch (classifyType) {
+
+            case "1":
+                fl = "男生";
+                    break;
+            case "2":
+                fl = "女生";
+                break;
+            default:
+                    fl = null;
+        }
+
+        switch (recommendType) {
+
+            case "1":
+                tj = "精品小说";
+                break;
+            case "2":
+                tj = "封面推荐";
+                break;
+            default:
+                tj = null;
+        }
+
+
+        if (recommendType.equals("0")) {
+
+            return JsonData.buildSuccess(bookService.findBookRandom(number, fl, tj));
+        }
+        else {
+
+            return JsonData.buildSuccess(bookService.findBookRandom(number, fl, tj));
+        }
+
+    }
 
 
     /**
@@ -50,8 +141,6 @@ public class BookController {
          *
          *
          * */
-
-
 
         return JsonData.buildSuccess(bookService.getHome(homeType));
     }

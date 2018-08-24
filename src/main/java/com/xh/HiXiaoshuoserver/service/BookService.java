@@ -17,6 +17,8 @@ public interface BookService {
     List<Map> getHome(int homeType);
 
 
+    List<Book> findBookRandom(int number, String classifyType, String recommendType);
+
 
     List<Book> findBookByPage(int pageNum,
                            int pageSize,

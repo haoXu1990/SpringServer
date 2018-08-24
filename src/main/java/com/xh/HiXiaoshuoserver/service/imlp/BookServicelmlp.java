@@ -21,6 +21,16 @@ public class BookServicelmlp implements BookService {
 
 
     @Override
+    public List<Book> findBookRandom(int number, String classifyType, String recommendType) {
+
+
+        List<Book> booksOne = findBookWithRandom(String.valueOf(number),classifyType,recommendType);
+
+        return booksOne;
+    }
+
+
+    @Override
     public List<Map> getHome(int homeType) {
 
         if (homeType == 1){
@@ -43,7 +53,7 @@ public class BookServicelmlp implements BookService {
         List<Book> booksTwo = findBookWithRandom("8",null,"封面推荐");
 
         List<Book> booksTree = findBookByPage(1,
-                10,
+                8,
                 null,
                 null,
                 "1",
