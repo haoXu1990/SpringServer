@@ -12,7 +12,10 @@
         <result column="book_catetime" property="bookCreatTime"/>
         <result column="book_abstract" property="bookAbstract"/>
         <result column="book_imageurl" property="bookImageUrl"/>
+        <result column="book_number" property="bookNumber"/>
     </resultMap>
+
+
 
     <sql id="Base_Column_bookList">
       book_name,book_author,book_status,book_classify,book_catetime,book_abstract,book_imageurl
@@ -99,7 +102,7 @@
     <!--新接口-->
     <select id="findBooks" resultMap="bookResultMap" useCache="false">
 
-        select book_id, <include refid="Base_Column_bookList"/>
+        select book_id,book_number, <include refid="Base_Column_bookList"/>
 
         from books
         <where>
