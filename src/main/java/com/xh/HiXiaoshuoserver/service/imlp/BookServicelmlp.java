@@ -19,6 +19,16 @@ public class BookServicelmlp implements BookService {
     @Autowired
     private BookMapper mBookMapper;
 
+    @Override
+    public List<Book> searchBook(String bookName) {
+
+        return wrapUrlWithBooks(mBookMapper.searching(bookName));
+    }
+
+    @Override
+    public List<Book> getHotSearch() {
+        return mBookMapper.getHotSearch();
+    }
 
     @Override
     public List<Book> findBookRandom(int number, String classifyType, String recommendType) {

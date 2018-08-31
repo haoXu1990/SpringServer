@@ -17,6 +17,25 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
+    /**
+     * 获取热门收索
+     * */
+    @GetMapping("/search")
+    public Object searchBook(String bookName){
+
+        return JsonData.buildSuccess(bookService.searchBook(bookName + '%'));
+    }
+
+
+    /**
+     * 获取热门收索
+     * */
+    @GetMapping("/gethotSearch")
+    public Object getHotSearch(){
+
+        return JsonData.buildSuccess(bookService.getHotSearch());
+    }
+
 
     /**
      * 根据小说分类和小说推荐主题随机获取 number 个小说
@@ -33,8 +52,8 @@ public class BookController {
     /**
      * 根据小说分类，数量, 随机获取点击排行榜前1000页数据
      *
-     * @param pageSize 获取数量
-     * @param classifyTyp 分类： 0 ： 不分类， 1 = 男生 2 = 女生
+     * @param number 获取数量
+     * @param classifyType 分类： 0 ： 不分类， 1 = 男生 2 = 女生
      * */
     @GetMapping("/randomClickTotalBook")
     public Object randomClickTotalBook(int number, String classifyType){

@@ -25,6 +25,24 @@
       book_author,book_status,book_classify,book_catetime,book_abstract,book_imageurl
     </sql>
 
+
+    
+    <select id="searching" resultMap="bookResultMap">
+
+        select * from books where book_name like #{bookName} and INSTR(books.book_imageurl,"img.miaobige.com")>0 limit 20
+    </select>
+    
+    <select id="getHotSearch" resultMap="bookResultMap">
+      select * from books where books.book_name in (
+        select book_name from (
+          select distinct book_name from book_searching_hot where RAND() LIMIT 5
+        ) AS  t
+
+      ) and INSTR(books.book_imageurl,"img.miaobige.com")>0
+
+    </select>
+
+
 <!--根据点击排行获取获取小说列表-->
     <select id="findByPage" resultMap="bookResultMap" useCache="false">
         select p.*

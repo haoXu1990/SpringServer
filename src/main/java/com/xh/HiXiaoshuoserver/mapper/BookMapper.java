@@ -48,4 +48,18 @@ public interface BookMapper {
     List<BookSource> getBookUrls(String bookID);
 
 
+
+    /**
+     * 获取热门搜索小说
+     * @return url数组
+     */
+    List<Book> getHotSearch();
+
+    /**
+     * 搜小说
+     * @return url数组
+     */
+    List<Book> searching(@Param("bookName") String bookName);
+
+
 }
