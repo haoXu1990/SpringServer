@@ -29,7 +29,7 @@ public class Book {
 
     private List<BookSource> bookUrls;
 
-
+    private String bookNumber;
 
     public String getBookName() {
         return bookName;
@@ -104,6 +104,11 @@ public class Book {
         this.bookUrls = bookUrls;
     }
 
+    public String getBookNumber() {
+        return bookNumber;
+    }
 
-
+    public void setBookNumber(String bookNumber) {
+        this.bookNumber = bookNumber;
+    }
 }

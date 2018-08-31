@@ -29,4 +29,8 @@ public interface BookService {
                            String time_condition);
 
 
+    List<Book> getHotSearch();
+
+    List<Book> searchBook(String bookName);
+
 }
