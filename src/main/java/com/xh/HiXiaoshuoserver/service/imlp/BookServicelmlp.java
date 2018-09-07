@@ -177,6 +177,10 @@ public class BookServicelmlp implements BookService {
             List<BookSource> urls = mBookMapper.getBookUrls(book.getBookID());
 
             book.setBookUrls(urls);
+
+            // 设置当前生效url
+            book.setBookurl(urls.get(0).getBookUrl());
+
         }
 
         return books;

@@ -6,6 +6,7 @@ import com.xh.HiXiaoshuoserver.service.BookService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,6 +17,24 @@ public class BookController {
 
     @Autowired
     private BookService bookService;
+
+    // Dao 层 也就是数据库访问
+    @Autowired
+    private BookMapper mBookMapper;
+
+
+    /**
+     * 添加热门收索
+     * */
+    @PostMapping("/addHotSearch")
+    public Object addHotSearch(String bookName, String timer){
+
+
+        mBookMapper.addHotSearch(bookName, timer);
+
+        return JsonData.buildSuccess("添加成功");
+    }
+
 
     /**
      * 获取热门收索
