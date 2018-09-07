@@ -38,7 +38,7 @@ public interface BookMapper {
      * 按照BookID查询URL
      * @return url数组
      */
-    @Select("SELECT book_id,book_url, book_domain,book_enable  FROM book_source WHERE book_id = #{bookID}")
+    @Select("SELECT book_id,book_url, book_domain,book_enable  FROM book_source WHERE book_id = #{bookID} AND book_enable = 1 ORDER BY id DESC ")
     @Results({
             @Result(column = "book_id", property = "bookID"),
             @Result(column = "book_url", property = "bookUrl"),
@@ -62,4 +62,11 @@ public interface BookMapper {
     List<Book> searching(@Param("bookName") String bookName);
 
 
+    @Insert("INSERT INTO book_feedback (content, qq, time) VALUES (#{content}, #{qq},#{timer})")
+    void addFeedBack(@Param("content") String content, @Param("qq") String qq,@Param("timer") String timer);
+
+
+
+    @Insert("INSERT INTO book_searching_hot (book_name, book_searching_time) VALUES (#{book_name}, #{book_searching_time})")
+    void addHotSearch(@Param("book_name") String bookName, @Param("book_searching_time") String timer);
 }

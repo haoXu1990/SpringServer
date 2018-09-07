@@ -31,6 +31,16 @@ public class Book {
 
     private String bookNumber;
 
+    private String bookurl;
+
+    public String getBookurl() {
+        return bookurl;
+    }
+
+    public void setBookurl(String bookurl) {
+        this.bookurl = bookurl;
+    }
+
     public String getBookName() {
         return bookName;
     }
