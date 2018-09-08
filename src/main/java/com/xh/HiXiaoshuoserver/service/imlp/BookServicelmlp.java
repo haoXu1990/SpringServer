@@ -16,7 +16,7 @@ import java.util.*;
 public class BookServicelmlp implements BookService {
 
     // Dao 层 也就是数据库访问
-    @Autowired
+
     private BookMapper mBookMapper;
 
     @Override
@@ -27,7 +27,8 @@ public class BookServicelmlp implements BookService {
 
     @Override
     public List<Book> getHotSearch() {
-        return mBookMapper.getHotSearch();
+
+        return wrapUrlWithBooks(mBookMapper.getHotSearch());
     }
 
     @Override
@@ -70,20 +71,20 @@ public class BookServicelmlp implements BookService {
                 null,
                 getTimerStrWithType(0));
 
-        Map bookMap = new HashMap();
+        Map<String, Object> bookMap = new HashMap<String, Object>();
         bookMap.put("title", "精品汇聚");
         bookMap.put("data", booksOne);
 
-        Map bookMapOne = new HashMap();
+        Map<String, Object> bookMapOne = new HashMap<String, Object>();
         bookMapOne.put("title", "精品专场");
         bookMapOne.put("data", booksTwo);
 
-        Map bookMapTwo = new HashMap();
+        Map<String, Object> bookMapTwo = new HashMap<String, Object>();
         bookMapTwo.put("title", "大家都在看");
         bookMapTwo.put("data", booksTree);
 
 
-        List<Map> list = new ArrayList<>();
+        List<Map> list = new ArrayList<Map>();
         list.add(bookMap);
         list.add(bookMapOne);
         list.add(bookMapTwo);

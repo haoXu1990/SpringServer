@@ -37,10 +37,11 @@ public class BookController {
 
 
     /**
-     * 获取热门收索
+     * 查找小说
      * */
     @GetMapping("/search")
     public Object searchBook(String bookName){
+
 
         return JsonData.buildSuccess(bookService.searchBook(bookName + '%'));
     }
