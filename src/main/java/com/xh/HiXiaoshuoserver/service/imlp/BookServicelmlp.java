@@ -16,8 +16,15 @@ import java.util.*;
 public class BookServicelmlp implements BookService {
 
     // Dao 层 也就是数据库访问
-
+    @Autowired
     private BookMapper mBookMapper;
+
+
+    @Override
+    public List<Book> newBaiYuer() {
+
+        return findBookWithRandom("3",null,"新手推荐");
+    }
 
     @Override
     public List<Book> searchBook(String bookName) {

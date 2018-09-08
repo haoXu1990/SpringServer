@@ -23,6 +23,14 @@ public class BookController {
     private BookMapper mBookMapper;
 
 
+    @GetMapping("/newBaiYuer")
+    public Object newBaiYuer() {
+
+        return JsonData.buildSuccess(bookService.newBaiYuer());
+    }
+
+
+
     /**
      * 添加热门收索
      * */

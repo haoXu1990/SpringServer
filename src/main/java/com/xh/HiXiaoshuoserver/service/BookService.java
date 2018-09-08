@@ -9,6 +9,8 @@ import java.util.Map;
 public interface BookService {
 
 
+    List<Book> newBaiYuer();
+
 
     /**
      *
