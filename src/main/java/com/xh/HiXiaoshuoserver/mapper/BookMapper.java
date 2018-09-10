@@ -4,6 +4,7 @@ package com.xh.HiXiaoshuoserver.mapper;
 import com.xh.HiXiaoshuoserver.domain.Book;
 
 import com.xh.HiXiaoshuoserver.domain.BookSource;
+import com.xh.HiXiaoshuoserver.domain.Version;
 import org.apache.ibatis.annotations.*;
 
 import java.util.Date;
@@ -11,6 +12,18 @@ import java.util.List;
 
 
 public interface BookMapper {
+
+    /**
+     * 按照BookID查询URL
+     * @return url数组
+     */
+    @Select("SELECT *  FROM book_version ")
+    @Results({
+            @Result(column = "force_update", property = "forceUpdate"),
+            @Result(column = "show_splash", property = "showSplash"),
+            @Result(column = "show_chapter_end_ad", property = "showChapterAD")
+    })
+    Version vsersion();
 
 
     /**

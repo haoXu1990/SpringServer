@@ -23,11 +23,26 @@ public class BookController {
     private BookMapper mBookMapper;
 
 
+    /**
+     *  新用户推荐，暂时未使用
+     * */
     @GetMapping("/newBaiYuer")
     public Object newBaiYuer() {
 
         return JsonData.buildSuccess(bookService.newBaiYuer());
     }
+
+
+
+    /**
+     * 版本控制
+     * */
+    @GetMapping("/version")
+    public Object version(){
+
+        return JsonData.buildSuccess(mBookMapper.vsersion());
+    }
+
 
 
 
