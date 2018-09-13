@@ -23,6 +23,13 @@ public class BookController {
     private BookMapper mBookMapper;
 
 
+    @GetMapping("/fetchurls")
+    public Object fetchurls(String bookID){
+
+        return JsonData.buildSuccess(mBookMapper.getBookUrls(bookID));
+    }
+
+
     /**
      *  新用户推荐，暂时未使用
      * */

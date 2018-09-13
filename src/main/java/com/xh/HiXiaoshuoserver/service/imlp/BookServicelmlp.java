@@ -178,20 +178,31 @@ public class BookServicelmlp implements BookService {
     public List<Book> wrapUrlWithBooks(List<Book> books){
 
         // 第二步，查询出每个book的url列表
+
+        List<Book> tmpBooks = new ArrayList<Book>();
+
         for (int i = 0; i < books.size(); i++) {
 
             Book book = books.get(i);
 
             List<BookSource> urls = mBookMapper.getBookUrls(book.getBookID());
 
-            book.setBookUrls(urls);
 
-            // 设置当前生效url
-            book.setBookurl(urls.get(0).getBookUrl());
+            // 这里需要判断url是否有效
+            if (urls.size() > 0){
+
+                book.setBookUrls(urls);
+
+                // 设置当前生效url
+                book.setBookurl(urls.get(0).getBookUrl());
+
+                tmpBooks.add(book);
+            }
 
         }
 
-        return books;
+
+        return tmpBooks;
     }
 
 //    public List<Book> findBook(String book_classify,

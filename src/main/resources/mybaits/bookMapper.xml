@@ -29,7 +29,7 @@
     
     <select id="searching" resultMap="bookResultMap">
 
-        select * from books where book_name like #{bookName} and INSTR(books.book_imageurl,"img.miaobige.com")>0 limit 20
+        select * from books where book_name like #{bookName} or book_author LIKE #{bookName} limit 20
     </select>
     
     <select id="getHotSearch" resultMap="bookResultMap">

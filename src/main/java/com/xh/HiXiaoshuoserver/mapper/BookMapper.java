@@ -51,6 +51,8 @@ public interface BookMapper {
      * 按照BookID查询URL
      * @return url数组
      */
+
+    //
     @Select("SELECT book_id,book_url, book_domain,book_enable  FROM book_source WHERE book_id = #{bookID} AND book_enable = 1 ORDER BY id DESC ")
     @Results({
             @Result(column = "book_id", property = "bookID"),
