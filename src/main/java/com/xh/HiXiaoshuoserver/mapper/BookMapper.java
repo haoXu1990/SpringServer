@@ -17,10 +17,12 @@ public interface BookMapper {
      * 按照BookID查询URL
      * @return url数组
      */
-    @Select("SELECT *  FROM book_version ")
+    @Select("SELECT force_update, show_splash, show_chapter_end_ad,show_googleAward_ad, show_chapter_random_number, show_ad_mine   FROM book_version ")
     @Results({
             @Result(column = "force_update", property = "forceUpdate"),
             @Result(column = "show_splash", property = "showSplash"),
+            @Result(column = "show_googleAward_ad", property = "showGoogleRewaredAD"),
+            @Result(column = "show_ad_mine", property = "showAD"),
             @Result(column = "show_chapter_end_ad", property = "showChapterAD")
     })
     Version vsersion();

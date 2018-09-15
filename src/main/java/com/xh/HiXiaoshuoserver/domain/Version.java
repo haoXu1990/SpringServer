@@ -16,6 +16,26 @@ public class Version {
 
     private Boolean showChapterAD;
 
+    private Boolean showGoogleRewaredAD;
+
+    private Boolean showAD;
+
+    public Boolean getShowAD() {
+        return showAD;
+    }
+
+    public void setShowAD(Boolean showAD) {
+        this.showAD = showAD;
+    }
+
+    public Boolean getShowGoogleRewaredAD() {
+        return showGoogleRewaredAD;
+    }
+
+    public void setShowGoogleRewaredAD(Boolean showGoogleRewaredAD) {
+        this.showGoogleRewaredAD = showGoogleRewaredAD;
+    }
+
     public Boolean getForceUpdate() {
         return forceUpdate;
     }
