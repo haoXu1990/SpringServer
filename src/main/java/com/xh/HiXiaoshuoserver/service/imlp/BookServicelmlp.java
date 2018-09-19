@@ -214,7 +214,7 @@ public class BookServicelmlp implements BookService {
 
             BookSource source = url.get(i);
 
-            if (source.getBookDomain().equals("miaobige")) {
+            if (source.getBookDomain().equals("wksw")) {
                 return source.getBookUrl();
             }
         }
