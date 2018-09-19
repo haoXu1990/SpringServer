@@ -194,8 +194,7 @@ public class BookServicelmlp implements BookService {
                 book.setBookUrls(urls);
 
                 // 设置当前生效url
-                book.setBookurl(urls.get(0).getBookUrl());
-
+                book.setBookurl(fetchDefaultUrl(urls));
                 tmpBooks.add(book);
             }
 
@@ -204,6 +203,26 @@ public class BookServicelmlp implements BookService {
 
         return tmpBooks;
     }
+
+    /***
+    *
+    * 设置默认的URL
+    * **/
+    public String fetchDefaultUrl(List<BookSource> url) {
+
+        for (int i = 0; i < url.size(); i++) {
+
+            BookSource source = url.get(i);
+
+            if (source.getBookDomain().equals("miaobige")) {
+                return source.getBookUrl();
+            }
+        }
+
+        return url.get(0).getBookUrl();
+
+    }
+
 
 //    public List<Book> findBook(String book_classify,
 //                               String book_recommend_tag,

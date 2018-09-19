@@ -73,7 +73,7 @@ public class BookController {
     public Object searchBook(String bookName){
 
 
-        return JsonData.buildSuccess(bookService.searchBook(bookName + '%'));
+        return JsonData.buildSuccess(bookService.searchBook('%' + bookName + '%'));
     }
 
 
