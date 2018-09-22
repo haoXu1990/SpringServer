@@ -38,7 +38,7 @@
           select distinct book_name from book_searching_hot where RAND() LIMIT 5
         ) AS  t
 
-      ) and INSTR(books.book_imageurl,"img.miaobige.com")>0
+      )
 
     </select>
 
@@ -127,21 +127,19 @@
 
             <choose>
                 <when test="book_classify == '男生' ">
-                    books.book_classify in ('玄幻奇幻', '武侠仙侠', '历史军事', '科幻灵异', '游戏竞技') AND INSTR(books.book_imageurl,"img.miaobige.com")>0
+                    books.book_classify in ('玄幻奇幻', '武侠仙侠', '历史军事', '科幻灵异', '游戏竞技')
 
                 </when>
 
                 <when test="book_classify == '女生' ">
-                    books.book_classify in ('言情女生', '科幻灵异', '都市青春') AND INSTR(books.book_imageurl,"img.miaobige.com")>0
+                    books.book_classify in ('言情女生', '科幻灵异', '都市青春')
                 </when>
 
                 <when test="book_classify != null">
-                    books.book_classify in (#{book_classify}) AND INSTR(books.book_imageurl,"img.miaobige.com")>0
+                    books.book_classify in (#{book_classify})
                 </when>
 
-                <otherwise>
-                    AND INSTR(books.book_imageurl,"img.miaobige.com")>0
-                </otherwise>
+
             </choose>
 
 
