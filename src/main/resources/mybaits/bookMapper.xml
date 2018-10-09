@@ -43,35 +43,45 @@
     </select>
 
     <!--根据分类条件获取小说列表-->
-    <select id="bookClassifyFind" resultMap="bookResultMap">
+    <select id="findBookbySubclassfy" resultMap="bookResultMap">
 
-        select * from books where book_subclassify=#{subclassify}, and book_number between #{minNumber} and  #{maxNumber}
+        select book_id,book_number,book_subclassify, <include refid="Base_Column_bookList"/> from books
 
         <where>
-            <!--按照点击排序-->
-            <if test="click_total != null and time_condition != null">
+
+            <if test="subclassify !=null" >
+                book_subclassify=#{subclassify} and book_number between #{minNumber} and  #{maxNumber}
+
+            </if>
+
+            <choose>
+
+                <!--按照点击排序-->
+                <when test="sortType != null " >
                 AND books.book_id in (
                 SELECT book_id from (
                 select  sum(book_click_cnt), book_id from
-                book_click_total where book_click_time between #{time_condition} and NOW() GROUP BY book_id order by  SUM(book_click_cnt) DESC
+                book_click_total where book_click_time GROUP BY book_id order by  SUM(book_click_cnt) DESC
                 ) as t
                 )
-            </if>
+                </when>
 
-            <!--按照收藏排序-->
-            <if test="collect_total != null and time_condition != null">
-                AND books.book_id in (
-                SELECT book_id from (
-                select  sum(book_collect_cnt), book_id from
-                book_collect_total where book_collect_time between #{time_condition} and NOW() GROUP BY book_id order by  SUM(book_collect_cnt) DESC
-                ) as t
-                )
-            </if>
+                <!--按照收藏排序-->
+                <otherwise>
+                  AND books.book_id in (
+                  SELECT book_id from (
+                  select  sum(book_collect_cnt), book_id from
+                  book_collect_total where book_collect_time GROUP BY book_id order by  SUM(book_collect_cnt) DESC
+                  ) as t
+                  )
+                </otherwise>
+                
+            </choose>
 
         </where>
 
 
-    </select>>
+    </select>
 
 <!--根据点击排行获取获取小说列表-->
     <select id="findByPage" resultMap="bookResultMap" useCache="false">
