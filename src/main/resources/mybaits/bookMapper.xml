@@ -42,6 +42,36 @@
 
     </select>
 
+    <!--根据分类条件获取小说列表-->
+    <select id="bookClassifyFind" resultMap="bookResultMap">
+
+        select * from books where book_subclassify=#{subclassify}, and book_number between #{minNumber} and  #{maxNumber}
+
+        <where>
+            <!--按照点击排序-->
+            <if test="click_total != null and time_condition != null">
+                AND books.book_id in (
+                SELECT book_id from (
+                select  sum(book_click_cnt), book_id from
+                book_click_total where book_click_time between #{time_condition} and NOW() GROUP BY book_id order by  SUM(book_click_cnt) DESC
+                ) as t
+                )
+            </if>
+
+            <!--按照收藏排序-->
+            <if test="collect_total != null and time_condition != null">
+                AND books.book_id in (
+                SELECT book_id from (
+                select  sum(book_collect_cnt), book_id from
+                book_collect_total where book_collect_time between #{time_condition} and NOW() GROUP BY book_id order by  SUM(book_collect_cnt) DESC
+                ) as t
+                )
+            </if>
+
+        </where>
+
+
+    </select>>
 
 <!--根据点击排行获取获取小说列表-->
     <select id="findByPage" resultMap="bookResultMap" useCache="false">
@@ -71,48 +101,6 @@
 
         )
         as p order by p.clickcount desc
-    </select>
-    
-    
-    <select id="findByJinDian" resultMap="bookResultMap" useCache="false">
-      select  books.book_id,
-        <include refid="Base_Column_bookList"/> from books where books.book_id in (
-        select book_id from (select * from book_jinpin order by rand() limit 8) as t)
-
-    </select>
-
-    <select id="findByJinDianPage" resultMap="bookResultMap" useCache="false">
-        select  books.book_id,books.book_name,
-        <include refid="Base_Jindian_Column_bookList"/> from books,book_jinpin where books.book_id = book_jinpin.book_id
-
-    </select>
-
-
-    <select id="findByNanShen" resultMap="bookResultMap" useCache="false">
-        select  books.book_id,
-        <include refid="Base_Column_bookList"/> from books where books.book_id in (
-        select book_id from (select * from book_nanshen order by rand() limit 8) as t)
-
-    </select>
-
-    <select id="findByNanShenPage" resultMap="bookResultMap" useCache="false">
-        select  books.book_id,books.book_name,
-        <include refid="Base_Jindian_Column_bookList"/> from books,book_nanshen where books.book_id = book_nanshen.book_id
-
-    </select>
-
-
-    <select id="findByNvShen" resultMap="bookResultMap" useCache="false">
-        select  books.book_id,
-        <include refid="Base_Column_bookList"/> from books where books.book_id in (
-        select book_id from (select * from book_nvshen order by rand() limit 8) as t)
-
-    </select>
-
-    <select id="findByNvShenPage" resultMap="bookResultMap" useCache="false">
-        select  books.book_id,books.book_name,
-        <include refid="Base_Jindian_Column_bookList"/> from books,book_nvshen where books.book_id = book_nvshen.book_id
-
     </select>
 
     
