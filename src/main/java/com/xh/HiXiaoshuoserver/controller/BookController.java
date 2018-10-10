@@ -26,6 +26,7 @@ public class BookController {
     /**
      * 分类查找书籍
      * @param subclassify 子分类
+     * @param classify 主要分类
      * @param sortType 排序类型 0 = 点击排行 ， 1 = 收藏排行
      * @param minNumber 字数最小值
      * @param maxNumber 字数最大值
@@ -33,6 +34,7 @@ public class BookController {
      * */
     @GetMapping("/findBookbySubclassfy")
     public Object findBookbySubclassfy(String subclassify,
+                                       String classify,
                                      String sortType,
                                      int minNumber,
                                      int maxNumber,
@@ -40,7 +42,7 @@ public class BookController {
                                      int pageSize){
 
 
-        return JsonData.buildSuccess(bookService.findBookbySubclassfy(subclassify, sortType, minNumber, maxNumber,pageNum,pageSize));
+        return JsonData.buildSuccess(bookService.findBookbySubclassfy(subclassify,classify, sortType, minNumber, maxNumber,pageNum,pageSize));
     }
 
 

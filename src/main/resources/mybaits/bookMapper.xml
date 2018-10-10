@@ -49,9 +49,17 @@
 
         <where>
 
-            <if test="subclassify !=null" >
-                book_subclassify=#{subclassify} and book_number between #{minNumber} and  #{maxNumber}
+            <if test="classify != null">
+                book_classify = #{classify}
+            </if>
 
+            <if test="subclassify !=null" >
+                AND book_subclassify=#{subclassify}
+
+            </if>
+
+            <if test="minNumber != null">
+                AND book_number between #{minNumber} and  #{maxNumber}
             </if>
 
             <choose>

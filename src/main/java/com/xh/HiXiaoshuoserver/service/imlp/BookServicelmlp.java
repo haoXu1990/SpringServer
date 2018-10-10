@@ -23,6 +23,7 @@ public class BookServicelmlp implements BookService {
     /**
      * 分类查找书籍
      * @param subclassify 子分类
+     * @param classify 主分类
      * @param sortType 排序类型 0 = 点击排行 ， 1 = 收藏排行
      * @param minNumber 字数最小值
      * @param maxNumber 字数最大值
@@ -32,6 +33,7 @@ public class BookServicelmlp implements BookService {
      * */
     @Override
     public List<Book> findBookbySubclassfy(String subclassify,
+                                           String classify,
                                            String sortType,
                                            int minNumber,
                                            int maxNumber,
@@ -44,8 +46,10 @@ public class BookServicelmlp implements BookService {
 
         String tmp = sortType.equals("0") == true ? "0" : null;
 
+        String tmpClassify = subclassify.equals("全部") == true ? null: classify;
+
         // 第一步，查询出book列表
-        List<Book> books = mBookMapper.findBookbySubclassfy(subclassify, tmp, minNumber, maxNumber);
+        List<Book> books = mBookMapper.findBookbySubclassfy(tmpClassify, classify,tmp, minNumber, maxNumber);
 
         return wrapUrlWithBooks(books);
 

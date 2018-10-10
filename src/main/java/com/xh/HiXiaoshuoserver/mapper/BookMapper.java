@@ -17,12 +17,14 @@ public interface BookMapper {
     /**
      * 分类查找书籍
      * @param subclassify 子分类
+     * @param classify 主分类
      * @param sortType 排序类型 0 = 点击排行 ， 1 = 收藏排行
      * @param minNumber 字数最小值
      * @param maxNumber 字数最大值
      *
      * */
     List<Book> findBookbySubclassfy(@Param("subclassify") String subclassify,
+                                    @Param("classify") String classify,
                                     @Param("sortType") String sortType,
                                     @Param("minNumber") int minNumber,
                                     @Param("maxNumber") int maxNumber);
