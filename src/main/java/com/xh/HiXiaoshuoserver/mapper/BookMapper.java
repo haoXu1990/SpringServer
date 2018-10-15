@@ -17,12 +17,14 @@ public interface BookMapper {
     /**
      * 分类查找书籍
      * @param subclassify 子分类
+     * @param classify 主分类
      * @param sortType 排序类型 0 = 点击排行 ， 1 = 收藏排行
      * @param minNumber 字数最小值
      * @param maxNumber 字数最大值
      *
      * */
-    List<Book> findBookbySubclassfy(@Param("subclassify") String subclassify,
+    List<Book> findBookbySubclassfy(@Param("classify") String classify,
+                                    @Param("subclassify") String subclassify,
                                     @Param("sortType") String sortType,
                                     @Param("minNumber") int minNumber,
                                     @Param("maxNumber") int maxNumber);
@@ -31,13 +33,14 @@ public interface BookMapper {
      * 按照BookID查询URL
      * @return url数组
      */
-    @Select("SELECT force_update, show_splash, show_chapter_end_ad,show_googleAward_ad, show_chapter_random_number, show_ad_mine   FROM book_version ")
+    @Select("SELECT force_update, show_splash, show_chapter_end_ad,show_googleAward_ad, show_chapterad_number, show_ad_mine   FROM book_version ")
     @Results({
             @Result(column = "force_update", property = "forceUpdate"),
             @Result(column = "show_splash", property = "showSplash"),
             @Result(column = "show_googleAward_ad", property = "showGoogleRewaredAD"),
             @Result(column = "show_ad_mine", property = "showAD"),
-            @Result(column = "show_chapter_end_ad", property = "showChapterAD")
+            @Result(column = "show_chapter_end_ad", property = "showChapterAD"),
+            @Result(column = "show_chapterad_number", property = "showChapterADNumber")
     })
     Version vsersion();
 

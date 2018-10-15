@@ -31,7 +31,8 @@ public class BookServicelmlp implements BookService {
      *
      * */
     @Override
-    public List<Book> findBookbySubclassfy(String subclassify,
+    public List<Book> findBookbySubclassfy(String classify,
+                                           String subclassify,
                                            String sortType,
                                            int minNumber,
                                            int maxNumber,
@@ -42,10 +43,11 @@ public class BookServicelmlp implements BookService {
         PageHelper.startPage(pageNum, pageSize);
 
 
-        String tmp = sortType.equals("0") == true ? "0" : null;
+        String tmpsortType = sortType.equals("0") == true ? "0" : null;
 
+        String tmpSubclassify = subclassify.equals("全部") == true ? null : subclassify;
         // 第一步，查询出book列表
-        List<Book> books = mBookMapper.findBookbySubclassfy(subclassify, tmp, minNumber, maxNumber);
+        List<Book> books = mBookMapper.findBookbySubclassfy(classify, tmpSubclassify, tmpsortType, minNumber,maxNumber);
 
         return wrapUrlWithBooks(books);
 

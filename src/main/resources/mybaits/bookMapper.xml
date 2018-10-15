@@ -49,33 +49,39 @@
 
         <where>
 
-            <if test="subclassify !=null" >
-                book_subclassify=#{subclassify} and book_number between #{minNumber} and  #{maxNumber}
-
+            <if test="classify !=null" >
+                book_classify=#{classify}
             </if>
+
+            <choose>
+              <when test="subclassify !=null">
+                and  book_subclassify=#{subclassify} and book_number between #{minNumber} and  #{maxNumber}
+              </when>
+
+              <otherwise>
+                  and book_number between #{minNumber} and  #{maxNumber}
+              </otherwise>
+            </choose>
+
 
             <choose>
 
                 <!--按照点击排序-->
-                <when test="sortType != null " >
-                AND books.book_id in (
-                SELECT book_id from (
-                select  sum(book_click_cnt), book_id from
-                book_click_total where book_click_time GROUP BY book_id order by  SUM(book_click_cnt) DESC
-                ) as t
-                )
+                <when test="sortType !=null " >
+                    AND books.book_id in (
+                    select  book_id from
+                    book_click_total  GROUP BY book_id order by  SUM(book_click_cnt) DESC
+                    )
                 </when>
 
                 <!--按照收藏排序-->
                 <otherwise>
-                  AND books.book_id in (
-                  SELECT book_id from (
-                  select  sum(book_collect_cnt), book_id from
-                  book_collect_total where book_collect_time GROUP BY book_id order by  SUM(book_collect_cnt) DESC
-                  ) as t
-                  )
+                    AND books.book_id in (
+                    select  book_id from
+                    book_collect_total  GROUP BY book_id order by  SUM(book_collect_cnt) DESC
+                    )
                 </otherwise>
-                
+
             </choose>
 
         </where>
