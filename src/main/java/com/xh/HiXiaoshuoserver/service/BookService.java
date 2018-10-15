@@ -21,8 +21,8 @@ public interface BookService {
      * @param pageSize  每页数据条数
      *
      * */
-    List<Book> findBookbySubclassfy(String subclassify,
-                                    String classify,
+    List<Book> findBookbySubclassfy(String classify,
+                                    String subclassify,
                                     String sortType,
                                     int minNumber,
                                     int maxNumber,
