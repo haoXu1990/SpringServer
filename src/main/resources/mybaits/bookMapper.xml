@@ -9,6 +9,8 @@
         <result column="book_author" property="bookAuthor"/>
         <result column="book_status" property="bookStatus"/>
         <result column="book_classify" property="bookClassify"/>
+        <result column="book_subclassify" property="bookSubClassify"/>
+        <result column="book_subject" property="bookSubject"/>
         <result column="book_catetime" property="bookCreatTime"/>
         <result column="book_abstract" property="bookAbstract"/>
         <result column="book_imageurl" property="bookImageUrl"/>
@@ -49,22 +51,9 @@
 
         <where>
 
-<<<<<<< HEAD
-            <if test="classify != null">
-                book_classify = #{classify}
-            </if>
 
-            <if test="subclassify !=null" >
-                AND book_subclassify=#{subclassify}
-
-            </if>
-
-            <if test="minNumber != null">
-                AND book_number between #{minNumber} and  #{maxNumber}
-=======
             <if test="classify !=null" >
                 book_classify=#{classify}
->>>>>>> 9923656fec028632a8a9e9d7b702dd8676842247
             </if>
 
             <choose>

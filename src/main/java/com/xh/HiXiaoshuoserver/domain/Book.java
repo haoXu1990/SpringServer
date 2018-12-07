@@ -33,6 +33,26 @@ public class Book {
 
     private String bookurl;
 
+    private String bookSubClassify;
+
+    private String bookSubject;
+
+    public String getBookSubject() {
+        return bookSubject;
+    }
+
+    public void setBookSubject(String bookSubject) {
+        this.bookSubject = bookSubject;
+    }
+
+    public String getBookSubClassify() {
+        return bookSubClassify;
+    }
+
+    public void setBookSubClassify(String bookSubClassify) {
+        this.bookSubClassify = bookSubClassify;
+    }
+
     public String getBookurl() {
         return bookurl;
     }
