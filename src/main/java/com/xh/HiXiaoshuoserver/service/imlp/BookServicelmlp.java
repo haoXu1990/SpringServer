@@ -20,6 +20,29 @@ public class BookServicelmlp implements BookService {
     private BookMapper mBookMapper;
 
 
+
+    @Override
+    public int putBook(String bookID, String bookName, String bookClassify, String bookImageUrl) {
+        return mBookMapper.putBook(bookID, bookName, bookClassify, bookImageUrl);
+    }
+
+    @Override
+    public List<Book> getBookList(String bookID, String bookName, String bookAuthor, String bookClassify) {
+        // 查询数据库并返回结果
+        List<Book> result = mBookMapper.getBookList(bookID, bookName, bookAuthor,bookClassify);
+
+        if (result.size() > 0) {
+
+            return wrapUrlWithBooks(result);
+        }
+        else {
+
+            return null;
+        }
+    }
+
+
+
     /**
      * 分类查找书籍
      * @param subclassify 子分类
@@ -213,6 +236,8 @@ public class BookServicelmlp implements BookService {
      * 为小说模型包装小说url模型
      * */
     public List<Book> wrapUrlWithBooks(List<Book> books){
+
+        if (books.size() == 0) return null;
 
         // 第二步，查询出每个book的url列表
 

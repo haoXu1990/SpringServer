@@ -13,7 +13,28 @@ import java.util.List;
 
 public interface BookMapper {
 
+    /**
+     * put请求
+     * 修改小说信息
+     * @param bookID 小说ID ，必填
+     * @param bookName 小说名称
+     * @param bookClassify 小说分类
+     * @param bookImageUrl 小说封面图片地址
+     * */
+    int putBook(String bookID, String bookName, String bookClassify, String bookImageUrl);
 
+    /**
+     * 获取小说详情，参数可选
+     * @param bookID 小说ID
+     * @param bookName 小说名称
+     * @param bookAuthor 小说作者
+     * @param bookClassify 小说分类
+     */
+    List<Book> getBookList(@Param("bookID") String bookID,
+                 @Param("bookName") String bookName,
+                 @Param("bookAuthor") String bookAuthor,
+                 @Param("bookClassify") String bookClassify
+                 );
     /**
      * 分类查找书籍
      * @param subclassify 子分类
@@ -31,7 +52,7 @@ public interface BookMapper {
                                     @Param("maxNumber") int maxNumber);
 
     /**
-     * 按照BookID查询URL
+     * 查询版本信息
      * @return url数组
      */
     @Select("SELECT force_update, show_splash, show_chapter_end_ad,show_googleAward_ad, show_chapterad_number, show_ad_mine   FROM book_version ")
@@ -104,4 +125,6 @@ public interface BookMapper {
 
     @Insert("INSERT INTO book_searching_hot (book_name, book_searching_time) VALUES (#{book_name}, #{book_searching_time})")
     void addHotSearch(@Param("book_name") String bookName, @Param("book_searching_time") String timer);
+
+
 }

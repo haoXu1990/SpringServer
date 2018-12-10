@@ -92,7 +92,7 @@
 
     </select>
 
-<!--根据点击排行获取获取小说列表-->
+    <!--根据点击排行获取获取小说列表-->
     <select id="findByPage" resultMap="bookResultMap" useCache="false">
         select p.*
         from (select books.book_id,
@@ -180,4 +180,49 @@
 
     </select>
     
+    
+    <!-- 获取小说详情 -->
+    <select id="getBookList" resultMap="bookResultMap">
+        select book_id,book_number, <include refid="Base_Column_bookList"/>
+        from books
+        <where>
+
+            <if test="bookID != null">
+                book_id = #{bookID}
+            </if>
+
+            <if test="bookName != null">
+
+                and  book_name like #{bookName}
+            </if>
+
+            <if test="bookClassify != null">
+                and  book_classify = #{bookClassify}
+            </if>
+
+            <if test="bookAuthor != null">
+                and  book_author = #{bookAuthor}
+            </if>
+            limit 20
+        </where>
+
+    </select>
+
+    <!-- 修改小说基本信息 -->
+    <update id="putBook">
+      update books
+      <set>
+          <if test="bookImageUrl != null">
+              book_imageurl=#{bookImageUrl},
+          </if>
+          <if test="bookName != null">
+              book_name=#{bookName},
+          </if>
+          <if test="bookClassify != null">
+              book_classify=#{bookClassify}
+          </if>
+
+      </set>
+        where book_id=#{bookID}
+    </update>
 </mapper>

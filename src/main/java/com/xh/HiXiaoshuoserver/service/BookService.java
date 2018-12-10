@@ -2,12 +2,41 @@ package com.xh.HiXiaoshuoserver.service;
 
 
 import com.xh.HiXiaoshuoserver.domain.Book;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;
 
 public interface BookService {
 
+
+    /**
+     * put请求
+     * 修改小说信息
+     * @param bookID 小说ID ，必填
+     * @param bookName 小说名称
+     * @param bookClassify 小说分类
+     * @param bookImageUrl 小说封面图片地址
+     * */
+    int putBook(String bookID,
+                    String bookName,
+                    String bookClassify,
+                    String bookImageUrl);
+
+    /**
+     * get请求
+     * 获取小说详情，参数可选
+     * @param bookID 小说ID
+     * @param bookName 小说名称
+     * @param bookAuthor 小说作者
+     * @param bookClassify 小说分类
+     *
+     * */
+    List<Book> getBookList(String bookID,
+                 String bookName,
+                 String bookAuthor,
+                 String bookClassify);
 
 
     /**

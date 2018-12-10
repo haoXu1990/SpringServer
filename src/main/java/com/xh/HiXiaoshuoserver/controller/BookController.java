@@ -1,11 +1,15 @@
 package com.xh.HiXiaoshuoserver.controller;
 
+import com.xh.HiXiaoshuoserver.domain.Book;
 import com.xh.HiXiaoshuoserver.domain.JsonData;
 import com.xh.HiXiaoshuoserver.mapper.BookMapper;
 import com.xh.HiXiaoshuoserver.service.BookService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.constraints.Null;
+import java.util.List;
 
 //@CrossOrigin(origins = "http://192.168.1.51:8080", maxAge = 3600)
 // 解决前端跨域问题
@@ -22,6 +26,62 @@ public class BookController {
     @Autowired
     private BookMapper mBookMapper;
 
+
+    /**
+     * get请求
+     * 获取小说详情，参数可选
+     * @param bookID 小说ID
+     * @param bookName 小说名称
+     * @param bookAuthor 小说作者
+     * @param bookClassify 小说分类
+     *
+    * */
+    @GetMapping("")
+    public Object getBookList(@RequestParam(value = "bookID", required = false) String bookID,
+                          @RequestParam(value = "bookName", required = false) String bookName,
+                          @RequestParam(value = "bookClassify", required = false) String bookClassify,
+                          @RequestParam(value = "bookAuthor", required = false) String bookAuthor){
+        // @RequestParam 默认值为null
+
+        // 名称模糊查找
+        List<Book> result = bookService.getBookList(bookID, '%' + bookName + '%', bookAuthor, bookClassify);
+
+        if (result.size() > 0) {
+            return JsonData.buildSuccess(result, "查询小说成功");
+        }
+        else {
+            return JsonData.buildError("查询小说失败");
+        }
+
+
+
+
+
+    }
+
+    /**
+     * put请求
+     * 修改小说信息
+     * @param bookID 小说ID ，必填
+     * @param bookName 小说名称
+     * @param bookClassify 小说分类
+     * @param bookImageUrl 小说封面图片地址
+     * */
+    @PutMapping("/")
+    public Object putBook(@RequestParam(value = "bookID") String bookID,
+                          @RequestParam(value = "bookName", required = false) String bookName,
+                          @RequestParam(value = "bookClassify", required = false) String bookClassify,
+                          @RequestParam(value = "bookImageUrl", required = false) String bookImageUrl){
+
+        int ret = bookService.putBook(bookID, bookName, bookClassify,bookImageUrl);
+
+        if (ret > 0) {
+            return JsonData.buildSuccess("修改成功");
+        }
+        else {
+            return JsonData.buildError("修改失败");
+        }
+    }
 
     /**
      * 分类查找书籍
