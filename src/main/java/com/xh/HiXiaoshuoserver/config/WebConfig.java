@@ -3,8 +3,11 @@ package com.xh.HiXiaoshuoserver.config;
 
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
@@ -21,6 +24,9 @@ import static com.alibaba.fastjson.serializer.SerializerFeature.WriteNullStringA
  **/
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
+
+    @Autowired
+    private CORSInterceptor corsInterceptor;
 
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
@@ -39,10 +45,26 @@ public class WebConfig implements WebMvcConfigurer {
                 //WriteNullStringAsEmpty,// null String不输出
                 //WriteMapNullValue,//null String也要输出
                 //WriteDateUseDateFormat,//Date的日期转换器
-                DisableCircularReferenceDetect//禁止循环引用
+                DisableCircularReferenceDetect,//禁止循环引用
+                PrettyFormat
         );
         converter.setFastJsonConfig(config);
         converters.add(converter);
 
+    }
+
+
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**") // 配置可以被跨域的路径
+                .allowedMethods("*") // 允许跨域的请求方法
+                .allowedOrigins("*") // 允许所有域名访问跨域资源
+                .allowedHeaders("*"); // 允许所有的请求Header访问
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+            registry.addInterceptor(corsInterceptor);
     }
 }

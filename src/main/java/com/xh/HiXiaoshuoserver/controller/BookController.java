@@ -13,8 +13,7 @@ import java.util.List;
 
 //@CrossOrigin(origins = "http://192.168.1.51:8080", maxAge = 3600)
 // 解决前端跨域问题
-@CrossOrigin(origins = "http://192.168.1.51:8080")
-
+//@CrossOrigin(origins = "http://192.168.1.51", maxAge = 3600)
 @RestController
 @RequestMapping("/api/book")
 public class BookController {
@@ -36,15 +35,17 @@ public class BookController {
      * @param bookClassify 小说分类
      *
     * */
-    @GetMapping("")
+    @GetMapping("/list")
     public Object getBookList(@RequestParam(value = "bookID", required = false) String bookID,
                           @RequestParam(value = "bookName", required = false) String bookName,
                           @RequestParam(value = "bookClassify", required = false) String bookClassify,
                           @RequestParam(value = "bookAuthor", required = false) String bookAuthor){
         // @RequestParam 默认值为null
 
+
+
         // 名称模糊查找
-        List<Book> result = bookService.getBookList(bookID, '%' + bookName + '%', bookAuthor, bookClassify);
+        List<Book> result = bookService.getBookList(bookID,  bookName != null ?'%' + bookName + '%':null, bookAuthor, bookClassify);
 
         if (result.size() > 0) {
             return JsonData.buildSuccess(result, "查询小说成功");
@@ -76,7 +77,7 @@ public class BookController {
         int ret = bookService.putBook(bookID, bookName, bookClassify,bookImageUrl);
 
         if (ret > 0) {
-            return JsonData.buildSuccess("修改成功");
+            return JsonData.buildSuccess("操作成功");
         }
         else {
             return JsonData.buildError("修改失败");

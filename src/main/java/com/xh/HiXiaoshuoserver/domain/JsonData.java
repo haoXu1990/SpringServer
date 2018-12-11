@@ -33,11 +33,16 @@ public class JsonData implements Serializable {
 
 	// 成功，传入数据
 	public static JsonData buildSuccess() {
-		return new JsonData(0, null, null);
+		return new JsonData(200, null, "请求成功");
 	}
+    // 成功，传入消息
+    public static JsonData buildSuccess(String msg) {
+        return new JsonData(200, null, msg);
+    }
 
 	// 成功，传入数据
 	public static JsonData buildSuccess(Object data) { return new JsonData(200, data, "请求成功"); }
+
 
 	// 失败，传入描述信息
 	public static JsonData buildError(String msg) {

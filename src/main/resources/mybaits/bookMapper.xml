@@ -213,16 +213,15 @@
       update books
       <set>
           <if test="bookImageUrl != null">
-              book_imageurl=#{bookImageUrl},
+              book_imageurl= #{bookImageUrl},
           </if>
           <if test="bookName != null">
-              book_name=#{bookName},
+              book_name= #{bookName},
           </if>
           <if test="bookClassify != null">
-              book_classify=#{bookClassify}
+              book_classify= #{bookClassify}
           </if>
-
       </set>
-        where book_id=#{bookID}
+        where book_id= #{bookID}
     </update>
 </mapper>

@@ -21,7 +21,10 @@ public interface BookMapper {
      * @param bookClassify 小说分类
      * @param bookImageUrl 小说封面图片地址
      * */
-    int putBook(String bookID, String bookName, String bookClassify, String bookImageUrl);
+    int putBook(@Param("bookID") String bookID,
+                @Param("bookName") String bookName,
+                @Param("bookClassify") String bookClassify,
+                @Param("bookImageUrl") String bookImageUrl);
 
     /**
      * 获取小说详情，参数可选
