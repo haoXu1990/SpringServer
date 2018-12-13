@@ -24,7 +24,9 @@ public interface BookMapper {
     int putBook(@Param("bookID") String bookID,
                 @Param("bookName") String bookName,
                 @Param("bookClassify") String bookClassify,
-                @Param("bookImageUrl") String bookImageUrl);
+                @Param("bookImageUrl") String bookImageUrl,
+                @Param("bookAuthor") String bookAuthor,
+                @Param("bookSubject") String bookSubject);
 
     /**
      * 获取小说详情，参数可选
@@ -34,10 +36,10 @@ public interface BookMapper {
      * @param bookClassify 小说分类
      */
     List<Book> getBookList(@Param("bookID") String bookID,
-                 @Param("bookName") String bookName,
-                 @Param("bookAuthor") String bookAuthor,
-                 @Param("bookClassify") String bookClassify
-                 );
+                           @Param("bookName") String bookName,
+                           @Param("bookAuthor") String bookAuthor,
+                           @Param("bookClassify") String bookClassify,
+                           @Param("bookSubject") String bookSubject);
     /**
      * 分类查找书籍
      * @param subclassify 子分类

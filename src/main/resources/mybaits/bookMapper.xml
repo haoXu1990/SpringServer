@@ -183,7 +183,7 @@
     
     <!-- 获取小说详情 -->
     <select id="getBookList" resultMap="bookResultMap">
-        select book_id,book_number, <include refid="Base_Column_bookList"/>
+        select book_id,book_number,book_subject, <include refid="Base_Column_bookList"/>
         from books
         <where>
 
@@ -203,7 +203,10 @@
             <if test="bookAuthor != null">
                 and  book_author = #{bookAuthor}
             </if>
-            limit 20
+
+            <if test="bookSubject != null">
+                and  book_subject like #{bookSubject}
+            </if>
         </where>
 
     </select>
@@ -212,6 +215,12 @@
     <update id="putBook">
       update books
       <set>
+          <if test="bookAuthor != null">
+              book_author= #{bookAuthor},
+          </if>
+          <if test="bookSubject != null">
+              book_subject= #{bookSubject},
+          </if>
           <if test="bookImageUrl != null">
               book_imageurl= #{bookImageUrl},
           </if>

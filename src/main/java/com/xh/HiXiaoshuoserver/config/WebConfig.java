@@ -24,9 +24,9 @@ import static com.alibaba.fastjson.serializer.SerializerFeature.WriteNullStringA
  **/
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
-
-    @Autowired
-    private CORSInterceptor corsInterceptor;
+//
+//    @Autowired
+//    private CORSInterceptor corsInterceptor;
 
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
@@ -54,17 +54,16 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
 
-
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**") // 配置可以被跨域的路径
                 .allowedMethods("*") // 允许跨域的请求方法
-                .allowedOrigins("*") // 允许所有域名访问跨域资源
+                .allowedOrigins("http://localhost:8080", "http://www.book2345.top:1990") // 允许所有域名访问跨域资源
                 .allowedHeaders("*"); // 允许所有的请求Header访问
     }
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-            registry.addInterceptor(corsInterceptor);
-    }
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//            registry.addInterceptor(corsInterceptor);
+//    }
 }

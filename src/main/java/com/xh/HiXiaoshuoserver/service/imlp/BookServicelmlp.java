@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.xh.HiXiaoshuoserver.domain.Book;
 import com.xh.HiXiaoshuoserver.domain.BookSource;
 import com.xh.HiXiaoshuoserver.mapper.BookMapper;
+import com.xh.HiXiaoshuoserver.page.PageInfo;
 import com.xh.HiXiaoshuoserver.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,23 +23,38 @@ public class BookServicelmlp implements BookService {
 
 
     @Override
-    public int putBook(String bookID, String bookName, String bookClassify, String bookImageUrl) {
-        return mBookMapper.putBook(bookID, bookName, bookClassify, bookImageUrl);
+    public int putBook(String bookID,
+                       String bookName,
+                       String bookClassify,
+                       String bookImageUrl,
+                       String bookAuthor,
+                       String bookSubject) {
+        return mBookMapper.putBook(bookID, bookName, bookClassify, bookImageUrl, bookAuthor, bookSubject);
     }
 
     @Override
-    public List<Book> getBookList(String bookID, String bookName, String bookAuthor, String bookClassify) {
+    public PageInfo getBookList(String bookID,
+                                                             String bookName,
+                                                             String bookAuthor,
+                                                             String bookClassify,
+                                                             String bookSubject,
+                                                             int pageNum,
+                                                             int pageSize) {
+
+        // 使用分页插件，在下一条查询语句会分页
+        PageHelper.startPage(pageNum, pageSize);
+
+        //分页时，实际返回的结果list类型是Page<E>，如果想取出分页信息，需要强制转换为Page<E>
         // 查询数据库并返回结果
-        List<Book> result = mBookMapper.getBookList(bookID, bookName, bookAuthor,bookClassify);
+        List<Book> result = mBookMapper.getBookList(bookID,
+                bookName,
+                bookAuthor,
+                bookClassify,
+                bookSubject);
+        //用PageInfo对结果进行包装
+        PageInfo pageInfo = new PageInfo(result);
 
-        if (result.size() > 0) {
-
-            return wrapUrlWithBooks(result);
-        }
-        else {
-
-            return null;
-        }
+        return pageInfo;
     }
 
 
@@ -67,7 +83,6 @@ public class BookServicelmlp implements BookService {
         // 使用分页插件，在下一条查询语句会分页
         PageHelper.startPage(pageNum, pageSize);
 
-
         String tmpsortType = sortType.equals("0") == true ? "0" : null;
 
         String tmpSubclassify = subclassify.equals("全部") == true ? null : subclassify;
@@ -75,6 +90,9 @@ public class BookServicelmlp implements BookService {
         // 第一步，查询出book列表
         List<Book> books = mBookMapper.findBookbySubclassfy(classify, tmpSubclassify, tmpsortType, minNumber,maxNumber);
 
+        // pageInfo https://github.com/pagehelper/Mybatis-PageHelper/blob/master/wikis/zh/HowToUse.md
+
+        // PageInfo pageInfo = new PageInfo(books);
 
         return wrapUrlWithBooks(books);
 

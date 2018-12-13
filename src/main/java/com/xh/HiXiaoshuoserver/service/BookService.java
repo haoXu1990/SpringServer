@@ -2,6 +2,7 @@ package com.xh.HiXiaoshuoserver.service;
 
 
 import com.xh.HiXiaoshuoserver.domain.Book;
+import com.xh.HiXiaoshuoserver.page.PageInfo;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -22,7 +23,9 @@ public interface BookService {
     int putBook(String bookID,
                     String bookName,
                     String bookClassify,
-                    String bookImageUrl);
+                    String bookImageUrl,
+                    String bookAuthor,
+                    String bookSubject);
 
     /**
      * get请求
@@ -31,12 +34,15 @@ public interface BookService {
      * @param bookName 小说名称
      * @param bookAuthor 小说作者
      * @param bookClassify 小说分类
-     *
+     * @param bookSubject 推荐主题
      * */
-    List<Book> getBookList(String bookID,
-                 String bookName,
-                 String bookAuthor,
-                 String bookClassify);
+    PageInfo getBookList(String bookID,
+                         String bookName,
+                         String bookAuthor,
+                         String bookClassify,
+                         String bookSubject,
+                         int  pageNum,
+                         int  pageSize);
 
 
     /**

@@ -3,6 +3,7 @@ package com.xh.HiXiaoshuoserver.controller;
 import com.xh.HiXiaoshuoserver.domain.Book;
 import com.xh.HiXiaoshuoserver.domain.JsonData;
 import com.xh.HiXiaoshuoserver.mapper.BookMapper;
+import com.xh.HiXiaoshuoserver.page.PageInfo;
 import com.xh.HiXiaoshuoserver.service.BookService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,31 +34,33 @@ public class BookController {
      * @param bookName 小说名称
      * @param bookAuthor 小说作者
      * @param bookClassify 小说分类
-     *
+     * @param bookSubject 小说推荐主题
+     * @param pageNum 获取页码
+     * @param pageSize 每页数量
     * */
     @GetMapping("/list")
     public Object getBookList(@RequestParam(value = "bookID", required = false) String bookID,
-                          @RequestParam(value = "bookName", required = false) String bookName,
-                          @RequestParam(value = "bookClassify", required = false) String bookClassify,
-                          @RequestParam(value = "bookAuthor", required = false) String bookAuthor){
+                              @RequestParam(value = "bookName", required = false) String bookName,
+                              @RequestParam(value = "bookClassify", required = false) String bookClassify,
+                              @RequestParam(value = "bookAuthor", required = false) String bookAuthor,
+                              @RequestParam(value = "bookSubject", required = false) String bookSubject,
+                              @RequestParam(value = "pageNum", required = false, defaultValue = "0") int pageNum,
+                              @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize){
+
         // @RequestParam 默认值为null
 
-
+        String mBookName = bookName != null ? '%' + bookName + '%':null;
+        String mBookSubject = bookSubject != null ? '%' + bookSubject + '%':null;
 
         // 名称模糊查找
-        List<Book> result = bookService.getBookList(bookID,  bookName != null ?'%' + bookName + '%':null, bookAuthor, bookClassify);
+        PageInfo result = bookService.getBookList(bookID, mBookName, bookAuthor, bookClassify, mBookSubject, pageNum, pageSize);
 
-        if (result.size() > 0) {
+        if (result.getList().size() > 0) {
             return JsonData.buildSuccess(result, "查询小说成功");
         }
         else {
             return JsonData.buildError("查询小说失败");
         }
-
-
-
-
-
     }
 
     /**
@@ -67,14 +70,18 @@ public class BookController {
      * @param bookName 小说名称
      * @param bookClassify 小说分类
      * @param bookImageUrl 小说封面图片地址
+     * @param bookAuthor 小说作者
+     * @param bookSubject 小说推荐分类
      * */
     @PutMapping("/")
     public Object putBook(@RequestParam(value = "bookID") String bookID,
                           @RequestParam(value = "bookName", required = false) String bookName,
                           @RequestParam(value = "bookClassify", required = false) String bookClassify,
-                          @RequestParam(value = "bookImageUrl", required = false) String bookImageUrl){
+                          @RequestParam(value = "bookImageUrl", required = false) String bookImageUrl,
+                          @RequestParam(value = "bookAuthor", required = false) String bookAuthor,
+                          @RequestParam(value = "bookSubject", required = false) String bookSubject){
 
-        int ret = bookService.putBook(bookID, bookName, bookClassify,bookImageUrl);
+        int ret = bookService.putBook(bookID, bookName, bookClassify,bookImageUrl,bookAuthor, bookSubject);
 
         if (ret > 0) {
             return JsonData.buildSuccess("操作成功");
