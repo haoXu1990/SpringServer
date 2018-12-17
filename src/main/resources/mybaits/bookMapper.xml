@@ -233,4 +233,25 @@
       </set>
         where book_id= #{bookID}
     </update>
+
+    <!-- 根据排行源, 榜单类型 查询排行榜 -->
+    <select id="getRankBookList" resultMap="bookResultMap">
+      select <include refid="Base_Column_bookList"/>
+        from books
+        where book_id in (
+            select book_id
+              from book_rank
+              where book_rank_origin in
+              <foreach item="item" index="index" collection="rankOrigins"
+              open="(" separator="," close=")">
+                  #{item}
+              </foreach>
+              and book_rank_state in 
+              <foreach item="item" collection="rankState"
+              open="(" separator="," close=")">
+                  #{item}
+              </foreach>
+              order by book_rank_number ASC
+        )
+    </select>
 </mapper>

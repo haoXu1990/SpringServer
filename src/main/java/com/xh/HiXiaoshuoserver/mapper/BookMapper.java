@@ -13,6 +13,10 @@ import java.util.List;
 
 public interface BookMapper {
 
+
+    List<Book> getRankBookList(@Param("rankOrigins") List<String> rankOrigins,
+                               @Param("rankState") List<String> rankState);
+
     /**
      * put请求
      * 修改小说信息

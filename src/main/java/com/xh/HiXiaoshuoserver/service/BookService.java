@@ -12,6 +12,8 @@ import java.util.Map;
 public interface BookService {
 
 
+    List<Book> getRecommendList(List<String> rankids, List<String> rankstates);
+
     /**
      * put请求
      * 修改小说信息

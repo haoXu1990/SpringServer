@@ -21,6 +21,11 @@ public class BookServicelmlp implements BookService {
     private BookMapper mBookMapper;
 
 
+    @Override
+    public List<Book> getRecommendList(List<String> rankids, List<String> rankstates) {
+
+        return mBookMapper.getRankBookList(rankids, rankstates);
+    }
 
     @Override
     public int putBook(String bookID,

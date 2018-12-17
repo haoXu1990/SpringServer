@@ -10,13 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Null;
+import java.util.ArrayList;
 import java.util.List;
 
 //@CrossOrigin(origins = "http://192.168.1.51:8080", maxAge = 3600)
 // 解决前端跨域问题
 //@CrossOrigin(origins = "http://192.168.1.51", maxAge = 3600)
 @RestController
-@RequestMapping("/api/book")
+//@RequestMapping("/api/book")
 public class BookController {
 
     @Autowired
@@ -38,7 +39,7 @@ public class BookController {
      * @param pageNum 获取页码
      * @param pageSize 每页数量
     * */
-    @GetMapping("/list")
+    @GetMapping("/api/book/list")
     public Object getBookList(@RequestParam(value = "bookID", required = false) String bookID,
                               @RequestParam(value = "bookName", required = false) String bookName,
                               @RequestParam(value = "bookClassify", required = false) String bookClassify,
@@ -73,7 +74,7 @@ public class BookController {
      * @param bookAuthor 小说作者
      * @param bookSubject 小说推荐分类
      * */
-    @PutMapping("/")
+    @PutMapping("/api/book/")
     public Object putBook(@RequestParam(value = "bookID") String bookID,
                           @RequestParam(value = "bookName", required = false) String bookName,
                           @RequestParam(value = "bookClassify", required = false) String bookClassify,
@@ -91,6 +92,22 @@ public class BookController {
         }
     }
 
+    @GetMapping("/v1/api/homeRecommend/boy")
+     public Object getBoyRecommend() {
+
+//   获取男生推荐列表包括: 完结榜单， 热搜榜单， 好评榜单
+        ArrayList<String> wanjieRankID = new ArrayList<String>();
+        wanjieRankID.add("1323");
+
+        ArrayList<String> wanjieRankState = new ArrayList<String>();
+        wanjieRankState.add("week");
+        List<Book> wanjie = bookService.getRecommendList(wanjieRankID, wanjieRankState);
+
+
+        return null;
+    }
+
+
     /**
      * 分类查找书籍
      * @param classify 主分类
@@ -101,7 +118,7 @@ public class BookController {
      * @param maxNumber 字数最大值
      *
      * */
-    @GetMapping("/findBookbySubclassfy")
+    @GetMapping("/api/book/findBookbySubclassfy")
     public Object findBookbySubclassfy(String classify,
                                        String subclassify,
                                        String sortType,
@@ -116,7 +133,7 @@ public class BookController {
     }
 
 
-    @GetMapping("/fetchurls")
+    @GetMapping("/api/book/fetchurls")
     public Object fetchurls(String bookID){
 
         return JsonData.buildSuccess(mBookMapper.getBookUrls(bookID));
@@ -126,7 +143,7 @@ public class BookController {
     /**
      *  新用户推荐，暂时未使用
      * */
-    @GetMapping("/newBaiYuer")
+    @GetMapping("/api/book/newBaiYuer")
     public Object newBaiYuer() {
 
         return JsonData.buildSuccess(bookService.newBaiYuer());
@@ -137,7 +154,7 @@ public class BookController {
     /**
      * 版本控制
      * */
-    @GetMapping("/version")
+    @GetMapping("/api/book/version")
     public Object version(){
 
         return JsonData.buildSuccess(mBookMapper.vsersion());
@@ -149,7 +166,7 @@ public class BookController {
     /**
      * 添加热门收索
      * */
-    @PostMapping("/addHotSearch")
+    @PostMapping("/api/book/addHotSearch")
     public Object addHotSearch(String bookName, String timer){
 
 
@@ -162,7 +179,7 @@ public class BookController {
     /**
      * 查找小说
      * */
-    @GetMapping("/search")
+    @GetMapping("/api/book/search")
     public Object searchBook(String bookName){
 
 
@@ -173,7 +190,7 @@ public class BookController {
     /**
      * 获取热门收索
      * */
-    @GetMapping("/gethotSearch")
+    @GetMapping("/api/book/gethotSearch")
     public Object getHotSearch(){
 
         return JsonData.buildSuccess(bookService.getHotSearch());
@@ -185,7 +202,7 @@ public class BookController {
      *
      * @param pageNum
      * */
-    @GetMapping("/findbookByPage")
+    @GetMapping("/api/book/findbookByPage")
     public Object findbookByPage(int pageNum, int pageSize, String classifyType){
         String fl;
 
@@ -198,7 +215,7 @@ public class BookController {
      * @param number 获取数量
      * @param classifyType 分类： 0 ： 不分类， 1 = 男生 2 = 女生
      * */
-    @GetMapping("/randomClickTotalBook")
+    @GetMapping("/api/book/randomClickTotalBook")
     public Object randomClickTotalBook(int number, String classifyType){
 
         String fl;
@@ -231,7 +248,7 @@ public class BookController {
      * @param classifyType 分类： 0 ： 不分类， 1 = 男生 2 = 女生
      * @param recommendType 推荐主题 0: 获取点击排行总榜， 1：精品小说 2:封面小说
      * */
-    @GetMapping("/random")
+    @GetMapping("/api/book/random")
     public Object randomBook(int number, String classifyType, String recommendType){
 
         String fl;
@@ -279,7 +296,7 @@ public class BookController {
      *
      * @param homeType  请求类型: 1=书城精选，2=书城女生，3=书城男生
      * */
-    @GetMapping("home")
+    @GetMapping("/api/bookhome")
     public Object home(int homeType){
 
         /***
